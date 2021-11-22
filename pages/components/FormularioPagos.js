@@ -1,7 +1,9 @@
-import {Autocomplete, FormControl,  Grid,  Typography} from "@mui/material"
+import {Autocomplete, FormControl,  FormControlLabel,  Grid,  Typography} from "@mui/material"
 import TextField from '@mui/material/TextField';
 import {useQuery} from "react-query"
 import { useState } from "react";
+import Checkbox from "@mui/material/Checkbox"
+import Paper from "@mui/material/Paper";
 
 const fetchEmisorRequest = async(Emisor)=>{
   const data2={Otro:Emisor}
@@ -20,6 +22,11 @@ const fetchEmisorRequest = async(Emisor)=>{
   
 export default function Formulario() {
   const [Emisor,setEmisor]=useState('')
+  const [FondosIngresados, setFondosI] = useState(false);
+  const [ConfirmacionPago,setConfiP]=useState(false);
+  const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
+  const handleCheckPago=e=>{setConfiP(e.target.checked)}
+  
   var Emisores=[]
   const {data: Emisores1}=useQuery(["Emisor",Emisor],fetchEmisorRequest)    
 
@@ -52,63 +59,108 @@ export default function Formulario() {
   const handleEmisorChange =e=>{
       setEmisor(e.target.value)
   }
-  
+  const tamanoh=350
 
   return (
     <div >
-      <FormControl>
+      <Paper elevation={6}>
       <Typography component="h1" variant="h5">
          Información del pago
        </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal id="ClienteAuto" options={Clientes} sx={{ width: 200 }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/>
+        <Autocomplete disablePortal id="ClienteAuto" options={Clientes} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/>
         </Grid>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal onInputChange={handleEmisorChange} id="EmisorAuto" options={Emisores} sx={{ width: 200 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/>
+        <Autocomplete disablePortal onInputChange={handleEmisorChange} id="EmisorAuto" options={Emisores} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/>
         </Grid>
     </Grid>
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <TextField sx={{width:200}} label="Monto recibido"></TextField>
+        <TextField sx={{width:tamanoh}} label="Monto recibido"></TextField>
         </Grid>
         <Grid item xs={12} sm={6}>
-        <TextField sx={{width:200}} label="Monto recibido"  disabled={true}></TextField>
+        <TextField sx={{width:tamanoh}} label="Monto recibido"  disabled={true}></TextField>
         </Grid>      
     </Grid>
 
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal id="MonedaAuto" options={Monedas} sx={{ width: 200 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-        <TextField sx={{width:200}} label="Tipo de cambio" ></TextField>
-        </Grid>
-    </Grid>
+        <Autocomplete disablePortal id="MonedaAuto" options={Monedas} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>
         
-    <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>    
-        <Autocomplete disablePortal id="FormaPAuto" options={Formasdepagos} sx={{ width: 200 }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
         </Grid>
         <Grid item xs={12} sm={6}>
-        <TextField type="datetime-local" sx={{width:200}}     InputLabelProps={{shrink: true}}/>
+        <TextField sx={{width:tamanoh}} label="Tipo de cambio" ></TextField>
+        
         </Grid>
     </Grid>
     <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>
+        <Autocomplete disablePortal id="FormaPAuto" options={Formasdepagos} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
+        
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <TextField label="Fecha" type="datetime-local" sx={{width:tamanoh}}     InputLabelProps={{shrink: true}}/>
+        
+        </Grid>
+    </Grid>
+
+
+
+
+
+
+    <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <Autocomplete disablePortal id="StatusAuto" options={Status} sx={{ width: 200 }} renderInput={(params) => <TextField {...params} label="Status"/>}/>
+        <Autocomplete disablePortal id="StatusAuto" options={Status} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Status"/>}/>
     </Grid>
     </Grid>
 
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <TextField sx={{width:200}} label="Numero Operacion"  disabled={true}></TextField>
+        <TextField sx={{width:tamanoh}} label="Numero Operacion"  disabled={true}></TextField>
         </Grid>
         <Grid item xs={12} sm={6}>    
-        <TextField sx={{width:200}} label="Observaciones" ></TextField>
+        <TextField sx={{width:tamanoh}} label="Observaciones" ></TextField>
         </Grid>
     </Grid>
-      </FormControl>
+    <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>    
+        <FormControlLabel onChange={handleCheckIngreso} control={<Checkbox />} label="Ya ingresaron los fondos a la cuenta ?"/>
+        </Grid>
+        <Grid item xs={12} sm={6}>    
+        <FormControlLabel onChange={handleCheckPago}  control={<Checkbox />}  label="El cliente confirmo el pago?"/>
+        </Grid>
+    </Grid>
+    
+    <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>    
+        <Autocomplete disablePortal  id="CuentaBancaria" options={Status} sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
+        </Grid>
+        <Grid item xs={12} sm={6}>    
+        <TextField type="datetime-local" sx={{ width: tamanoh , display:ConfirmacionPago? 'block':'none' }}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>
+        </Grid>
+    </Grid>
+
+    
+    <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>    
+        <TextField type="date"  sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }}  InputLabelProps={{shrink: true}} label="Fecha de ingreso"/>
+        </Grid>
+        <Grid item xs={12} sm={6}>    
+        <TextField sx={{display:ConfirmacionPago? 'block':'none', width: tamanoh   }}   label="Observaciones al confirmar" ></TextField>    
+        </Grid>
+    </Grid>
+    
+    <Grid container spacing={2}>
+        <Grid item xs={12} sm={6}>    
+        <TextField sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }} label="Monto Registrado" ></TextField>
+    
+ 
+         </Grid>
+    </Grid>
+        
+      </Paper>
     </div>
   )
 }
