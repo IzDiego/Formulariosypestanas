@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Formulario from './FormularioPagos'
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
-
+import Paper from "@mui/material/Paper";
 
 export default function FormMovimientos(){
     const [open, setOpen] = React.useState(false);
@@ -28,6 +28,7 @@ export default function FormMovimientos(){
   
     return(
         <div>
+        <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
         <Button onClick={handleOpen}>Agregar movimientos</Button>
         <Modal
         open={open}
@@ -44,6 +45,7 @@ export default function FormMovimientos(){
             </Typography>
             </Box>
         </Modal>
+        </Paper>
         </div>
     )
 }

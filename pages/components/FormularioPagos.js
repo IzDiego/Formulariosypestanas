@@ -22,7 +22,7 @@ const fetchEmisorRequest = async(Emisor)=>{
   
 export default function Formulario() {
   const [Emisor,setEmisor]=useState('')
-  const [FondosIngresados, setFondosI] = useState(false);
+  const [ConfirmacionFondos, setFondosI] = useState(false);
   const [ConfirmacionPago,setConfiP]=useState(false);
   const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
   const handleCheckPago=e=>{setConfiP(e.target.checked)}
@@ -62,8 +62,8 @@ export default function Formulario() {
   const tamanoh=350
 
   return (
-    <div >
-      <Paper elevation={6}>
+    <div >    
+      <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
       <Typography component="h1" variant="h5">
          Información del pago
        </Typography>
@@ -135,17 +135,17 @@ export default function Formulario() {
     
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <Autocomplete disablePortal  id="CuentaBancaria" options={Status} sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
+        <Autocomplete disablePortal   id="CuentaBancaria" options={Status}sx={{ width: tamanoh , display:ConfirmacionFondos? 'block':'none' }} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
         </Grid>
         <Grid item xs={12} sm={6}>    
-        <TextField type="datetime-local" sx={{ width: tamanoh , display:ConfirmacionPago? 'block':'none' }}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>
+        <TextField type="datetime-local"  sx={{display:ConfirmacionPago? 'block':'none', width: tamanoh   }}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>
         </Grid>
     </Grid>
 
     
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <TextField type="date"  sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }}  InputLabelProps={{shrink: true}} label="Fecha de ingreso"/>
+        <TextField type="date"  sx={{ width: tamanoh , display:ConfirmacionFondos? 'block':'none' }}  InputLabelProps={{shrink: true}} label="Fecha de ingreso"/>
         </Grid>
         <Grid item xs={12} sm={6}>    
         <TextField sx={{display:ConfirmacionPago? 'block':'none', width: tamanoh   }}   label="Observaciones al confirmar" ></TextField>    
@@ -154,7 +154,7 @@ export default function Formulario() {
     
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <TextField sx={{ width: tamanoh , display:FondosIngresados? 'block':'none' }} label="Monto Registrado" ></TextField>
+        <TextField sx={{ width: tamanoh , display:ConfirmacionFondos? 'block':'none' }} label="Monto Registrado" ></TextField>
     
  
          </Grid>
