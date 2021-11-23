@@ -19,16 +19,79 @@ const fetchEmisorRequest = async(Emisor)=>{
   return Emisores
 }
 
+
+const fetchStatusRequest = async(Status)=>{
+  const data2={Otro:Status}
+  const response= await fetch('../api/ObtenerStatus',{
+      body:JSON.stringify(data2),
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json',
+      },
+  })
+  const data= await response.json()
+  const {Status1}=data;
+  return Status1
+}
+
+const fetchFormaRequest = async(Status)=>{
+  const data2={Otro:Status}
+  const response= await fetch('../api/ObtenerForma',{
+      body:JSON.stringify(data2),
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json',
+      },
+  })
+  const data= await response.json()
+  const {Forma1}=data;
+  return Forma1
+}
   
 export default function Formulario() {
   const [Emisor,setEmisor]=useState('')
+  const [Formas,setFormas]=useState('')
+  const [Status,setStatus]=useState('')
   const [ConfirmacionFondos, setFondosI] = useState(false);
   const [ConfirmacionPago,setConfiP]=useState(false);
   const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
   const handleCheckPago=e=>{setConfiP(e.target.checked)}
+  const handleEmisorChange=e=>{setEmisor(e.target.value)}
+  const handleStatusChange=e=>{setStatus(e.target.value)}
+  const handleFormaChange=e=>{setFormas(e.target.value)}
   
+
   var Emisores=[]
+  var ListaForma=[]
+  var ListaStatus=[]
   const {data: Emisores1}=useQuery(["Emisor",Emisor],fetchEmisorRequest)    
+  //const {data:FormaPago1}=useQuery(["Formas",Formas],fetchFormaRequest)
+  const { data: ListaStatus1}=useQuery(["Status",Status],fetchStatusRequest) 
+  const {data:ListaForma1}=useQuery(["Formas",Formas],fetchFormaRequest)
+  //  console.log(Emisores1)  
+//  console.log(ListaStatus1)
+  //console.log(ListaForma1)
+
+  if(ListaForma1){
+    for(let Form of ListaForma1){
+      ListaForma.push(Form.forma+' - '+Form.forma_pago_nombre)     
+    }
+  }
+  else{
+    console.log("cargando Formas")
+    ListaForma=[]
+  }
+
+  if(ListaStatus1){
+    for(let Stat of ListaStatus1){
+      ListaStatus.push(Stat.status_pago_nombre)     
+    }
+  }
+  else{
+    console.log("cargando Status")
+    ListaStatus=[]
+  }
+
 
   if(Emisores1){
     for(let Emi of Emisores1){
@@ -36,29 +99,23 @@ export default function Formulario() {
     }
   }
   else{
-    console.log("cargando")
+    console.log("cargando emisores")
     Emisores=[]
   }
 
   const Clientes=[
-        "a","b","c"
+        "Usada","Sakura","Uruha","Amane","Azki","Hoshimachi"
     ]
     const Monedas=[
-      "g","h","i"
+      "Peso","Dollar","Yen"
     ]
 
     const Formasdepagos=[
-      "j","k","l"
-    ]
-
-    const Status=[
-      "m","n","o"
+      "01","02","03 - Transferencia electrónica de fondos"
     ]
 
 
-  const handleEmisorChange =e=>{
-      setEmisor(e.target.value)
-  }
+
   const tamanoh=350
 
   return (
@@ -83,7 +140,6 @@ export default function Formulario() {
         <TextField sx={{width:tamanoh}} label="Monto recibido"  disabled={true}></TextField>
         </Grid>      
     </Grid>
-
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
         <Autocomplete disablePortal id="MonedaAuto" options={Monedas} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>
@@ -91,12 +147,11 @@ export default function Formulario() {
         </Grid>
         <Grid item xs={12} sm={6}>
         <TextField sx={{width:tamanoh}} label="Tipo de cambio" ></TextField>
-        
         </Grid>
     </Grid>
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal id="FormaPAuto" options={Formasdepagos} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
+        <Autocomplete disablePortal id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
         
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -104,15 +159,9 @@ export default function Formulario() {
         
         </Grid>
     </Grid>
-
-
-
-
-
-
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <Autocomplete disablePortal id="StatusAuto" options={Status} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Status"/>}/>
+        <Autocomplete disablePortal onInputChange={handleStatusChange} id="StatusAuto" options={ListaStatus} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Status"/>}/>
     </Grid>
     </Grid>
 
