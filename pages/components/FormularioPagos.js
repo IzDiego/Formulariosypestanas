@@ -183,7 +183,7 @@ export default function Formulario() {
     
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>    
-        <Autocomplete disablePortal   id="CuentaBancaria" options={ListaCuentas}sx={{ width: tamanoh , display:ConfirmacionFondos? 'block':'none' }} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
+        <Autocomplete disablePortal   id="CuentaBancaria" options={ListaCuentas} sx={{ width: tamanoh , display:ConfirmacionFondos? 'block':'none' }} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
         </Grid>
         <Grid item xs={12} sm={6}>    
         <TextField type="datetime-local"  sx={{display:ConfirmacionPago? 'block':'none', width: tamanoh   }}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>

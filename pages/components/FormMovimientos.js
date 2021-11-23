@@ -7,29 +7,60 @@ import Formulario from './FormularioPagos'
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Paper from "@mui/material/Paper";
-
+import { DataGrid } from '@mui/x-data-grid';
+import { useState } from 'react';
 export default function FormMovimientos(){
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [Idactual,setId]=useState('')
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const columns=[
+        {field:"id",headerName:"Id",width:70},
+        {field:"fecha",headerName:"Fecha",width:150},
+        {field:"concepto",headerName:"Concepto",width:200},
+        {field:"referencia",headerName:"Referencia",width:100},
+        {field:"pago",headerName:"Pago",width:100},
+        {field:"gasto",headerName:"Gasto",width:100},
+        {field:"monto",headerName:"Monto",width:100}
+    ]
+    
+      const lista=[
+          {id:"75787",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1234",pago:"",gasto:"",monto:4383.16},
+          {id:"75789",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1235",pago:"",gasto:"",monto:6201.29},
+          {id:"75788",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1236",pago:"",gasto:"",monto:7351.73},
+          {id:"75806",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1237",pago:"",gasto:"",monto:1684.27},
+          {id:"75804",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1238",pago:"",gasto:"",monto:2428.55},
+          {id:"75802",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1239",pago:"",gasto:"",monto:3614.24},
+          {id:"75797",fecha:"03-Nov-2021",concepto:"Pago cuenta de tercero",referencia:"1231",pago:"",gasto:"",monto:4173.53},
+      ]
 
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
-        bgcolor: 'background.paper',
+        width: 800,
+        height:500,
+        bgcolor: '#e1f5fe',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
       };
   
+      const Prueba=e=>{
+        for(let i of e){
+            setId(e)
+        }
+    }
+
     return(
         <div>
         <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
         <Button onClick={handleOpen}>Agregar movimientos</Button>
+        <Typography id="asd" variant="h6" component="h2">
+            {Idactual}
+        </Typography>
         <Modal
         open={open}
         onClose={handleClose}
@@ -38,11 +69,20 @@ export default function FormMovimientos(){
         >
             <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-                Listado Cuenta Bancaria
+                Listado Cuenta Bancaria con Datos ya establecidos
             </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Aqui irian los movimientos, si ya lo hubiera hecho!
-            </Typography>
+                <DataGrid
+                rows={lista}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5]}
+                checkboxSelection
+                disableColumnFilter
+                disableColumnMenu
+                disableColumnSelector
+                disableDensitySelector
+                disableExtendRowFullWidth
+                onSelectionModelChange={Prueba}/>
             </Box>
         </Modal>
         </Paper>
