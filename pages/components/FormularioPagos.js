@@ -47,20 +47,37 @@ const fetchFormaRequest = async(Status)=>{
   const {Forma1}=data;
   return Forma1
 }
-  
+ 
+const fetchMonedasRequest = async(Moneda)=>{
+  const data2={Otro:Moneda}
+  const response= await fetch('../api/ObtenerMonedas',{
+      body:JSON.stringify(data2),
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json',
+      },
+  })
+  const data= await response.json()
+  const {Monedas}=data;
+  return Monedas
+}
 export default function Formulario() {
   const [Emisor,setEmisor]=useState('')
   const [Formas,setFormas]=useState('')
   const [Status,setStatus]=useState('')
+  const [Moneda,setMoneda]=useState('')
+
   const [ConfirmacionFondos, setFondosI] = useState(false);
   const [ConfirmacionPago,setConfiP]=useState(false);
   const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
   const handleCheckPago=e=>{setConfiP(e.target.checked)}
+  
   const handleEmisorChange=e=>{setEmisor(e.target.value)}
   const handleStatusChange=e=>{setStatus(e.target.value)}
   const handleFormaChange=e=>{setFormas(e.target.value)}
+  const handleMonedaChange=e=>{setMoneda(e.target.value)}
   
-
+  var ListaMonedas=[]
   var Emisores=[]
   var ListaForma=[]
   var ListaStatus=[]
@@ -68,9 +85,22 @@ export default function Formulario() {
   //const {data:FormaPago1}=useQuery(["Formas",Formas],fetchFormaRequest)
   const { data: ListaStatus1}=useQuery(["Status",Status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",Formas],fetchFormaRequest)
-  //  console.log(Emisores1)  
-//  console.log(ListaStatus1)
+  const {data:ListaMonedas1}=useQuery(["Monedas",Moneda],fetchMonedasRequest)
+  //console.log(Emisores1)  
+  //console.log(ListaStatus1)
   //console.log(ListaForma1)
+  console.log(ListaMonedas1)
+
+  if(ListaMonedas1){
+    for(let Mone of ListaMonedas1){
+      ListaMonedas.push(Mone.soporte_moneda_clave+' - '+Mone.soporte_moneda_nombre)
+    }
+  }
+  else{
+    console.log("Cargando monedas")
+    var ListaMonedas=[]
+  }
+
 
   if(ListaForma1){
     for(let Form of ListaForma1){
@@ -106,9 +136,6 @@ export default function Formulario() {
   const Clientes=[
         "Usada","Sakura","Uruha","Amane","Azki","Hoshimachi"
     ]
-    const Monedas=[
-      "Peso","Dollar","Yen"
-    ]
 
   const ListaCuentas=[
     "asd1234","zxc5678","qwe0987","vbn6543"
@@ -141,8 +168,7 @@ export default function Formulario() {
     </Grid>
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal id="MonedaAuto" options={Monedas} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>
-        
+        <Autocomplete disablePortal onInputChange={handleMonedaChange} id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>   
         </Grid>
         <Grid item xs={12} sm={6}>
         <TextField sx={{width:tamanoh}} label="Tipo de cambio" ></TextField>
@@ -150,7 +176,7 @@ export default function Formulario() {
     </Grid>
     <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-        <Autocomplete disablePortal id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
+        <Autocomplete disablePortal onInputChange={handleFormaChange} id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>
         
         </Grid>
         <Grid item xs={12} sm={6}>
