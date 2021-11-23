@@ -38,7 +38,7 @@ export default function FormMovimientos(){
         >
             <Box sx={style}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
+                Listado Cuenta Bancaria
             </Typography>
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 Aqui irian los movimientos, si ya lo hubiera hecho!
