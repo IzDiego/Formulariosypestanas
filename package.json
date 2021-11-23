@@ -19,8 +19,8 @@
     "react-query": "^3.33.4"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
-  },
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+ },
   "devDependencies": {
     "@types/node": "^16.11.8",
     "eslint": "7.32.0",
