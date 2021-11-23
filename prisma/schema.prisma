@@ -33,16 +33,16 @@ model pagos {
 
 model monedas{
   soporte_moneda_id                       String @id @db.VarChar(255)
-  soporte_idioma_id                       String @db.VarChar(255)
-  soporte_moneda_clave                    String @db.VarChar(255)
-  soporte_moneda_nombre                   String @db.VarChar(255)
-  soporte_moneda_decimales                String @db.VarChar(255)
-  soporte_moneda_porcentaje_variacion     String @db.VarChar(255)
-  soporte_moneda_nombre_singular          String @db.VarChar(255)
-  soporte_moneda_nombre_plural            String @db.VarChar(255)
-  soporte_moneda_denominacion             String @db.VarChar(255)
-  soporte_moneda_simbolo                  String @db.VarChar(255)
-  soporte_moneda_status                   String @db.VarChar(255)
+  soporte_idioma_id                       String? @db.VarChar(255)
+  soporte_moneda_clave                    String? @db.VarChar(255)
+  soporte_moneda_nombre                   String? @db.VarChar(255)
+  soporte_moneda_decimales                String? @db.VarChar(255)
+  soporte_moneda_porcentaje_variacion     String? @db.VarChar(255)
+  soporte_moneda_nombre_singular          String? @db.VarChar(255)
+  soporte_moneda_nombre_plural            String? @db.VarChar(255)
+  soporte_moneda_denominacion             String? @db.VarChar(255)
+  soporte_moneda_simbolo                  String? @db.VarChar(255)
+  soporte_moneda_status                   String? @db.VarChar(255)
 }
 
 
