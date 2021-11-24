@@ -1,19 +1,27 @@
 import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Formulario from './FormularioPagos'
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Paper from "@mui/material/Paper";
 import { DataGrid } from '@mui/x-data-grid';
 import { useState } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+
+
+
 export default function FormMovimientos(){
     const [open, setOpen] = useState(false);
-    const [Idactual,setId]=useState('')
+    const [Idactual,setId]=useState([])
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const handleCancelar=()=>setId([]);
+    const handleGuardar=()=>console.log('Guardado');
 
     const columns=[
         {field:"id",headerName:"Id",width:70},
@@ -35,6 +43,19 @@ export default function FormMovimientos(){
           {id:"75797",fecha:"03-Nov-2021",concepto:"Pago cuenta de tercero",referencia:"1231",pago:"",gasto:"",monto:4173.53},
       ]
 
+      var DatosTabla=[]
+      if(Idactual){
+          for(let lis of lista){
+              for(let asd of Idactual){
+                  if(lis.id===asd){
+                      DatosTabla.push(lis)
+                  }
+              }
+          }
+      }
+      console.log(DatosTabla)
+
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -49,18 +70,49 @@ export default function FormMovimientos(){
       };
   
       const Prueba=e=>{
+        var aux=[]
         for(let i of e){
-            setId(e)
+            aux.push(e)
         }
+        setId(e)
     }
 
     return(
         <div>
         <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
-        <Button onClick={handleOpen}>Agregar movimientos</Button>
-        <Typography id="asd" variant="h6" component="h2">
-            {Idactual}
-        </Typography>
+        <Box  sx={{padding:3}} textAlign='center'>
+        <Button variant="contained" color="primary" onClick={handleOpen} sx={{align:"center"}}>Agregar movimientos</Button>
+        <TableContainer >
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+            <TableRow>
+                <TableCell align="center">Fecha</TableCell>
+                <TableCell align="center">Concepto</TableCell>
+                <TableCell align="center">Referencia</TableCell>
+                <TableCell align="center">Monto</TableCell>
+            </TableRow>
+            </TableHead>
+            <TableBody>
+            {DatosTabla.map((row) => (
+                <TableRow
+                key={row.id}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                <TableCell align="center">{row.fecha}</TableCell>
+                <TableCell align="center">{row.concepto}</TableCell>
+                <TableCell align="center">{row.referencia}</TableCell>
+                <TableCell align="center">{row.monto}</TableCell>
+                </TableRow>
+            ))}
+            </TableBody>
+            </Table>
+        </TableContainer>
+        <Button variant="contained"  color="error" onClick={handleCancelar} >Cancelar</Button>
+        <Button variant="contained"  color="success" onClick={handleGuardar} >Guardar Pago</Button>
+        </Box>
+        
+
+
         <Modal
         open={open}
         onClose={handleClose}
