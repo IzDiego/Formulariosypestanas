@@ -5,24 +5,26 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Paper from "@mui/material/Paper";
 import { DataGrid } from '@mui/x-data-grid';
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {AppContext} from "../application/provider" 
 
 
 
 export default function FormMovimientos(){
     const [open, setOpen] = useState(false);
     const [Idactual,setId]=useState([])
+    const [Dinero,setDinero]=useContext(AppContext)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleCancelar=()=>setId([]);
-    const handleGuardar=()=>console.log('Guardado');
 
+    
     const columns=[
         {field:"id",headerName:"Id",width:70},
         {field:"fecha",headerName:"Fecha",width:150},
@@ -43,17 +45,37 @@ export default function FormMovimientos(){
           {id:"75797",fecha:"03-Nov-2021",concepto:"Pago cuenta de tercero",referencia:"1231",pago:"",gasto:"",monto:4173.53},
       ]
 
-      var DatosTabla=[]
-      if(Idactual){
-          for(let lis of lista){
-              for(let asd of Idactual){
-                  if(lis.id===asd){
-                      DatosTabla.push(lis)
-                  }
-              }
-          }
-      }
-      console.log(DatosTabla)
+    var DatosTabla=[]
+    if(Idactual){
+        for(let lis of lista){
+            for(let asd of Idactual){
+                if(lis.id===asd){
+                    DatosTabla.push(lis)
+                }
+            }
+        }
+    }
+
+    const [SumaComprobantes,setSuma]=useState(0)
+    const handleGuardar=()=>{
+        var aux=0
+        for(let i of DatosTabla){
+            aux+=i.monto
+        }
+        setDinero(prevDinero=>({
+            ...prevDinero,
+            ["Pago"]:aux
+        }))
+    }
+
+    const handleRowCheck=e=>{
+        var aux=[]
+        for(let i of e){
+            aux.push(e)
+        }
+        setId(e)
+    }
+
 
 
     const style = {
@@ -69,13 +91,6 @@ export default function FormMovimientos(){
         p: 4,
       };
   
-      const Prueba=e=>{
-        var aux=[]
-        for(let i of e){
-            aux.push(e)
-        }
-        setId(e)
-    }
 
     return(
         <div>
@@ -134,7 +149,7 @@ export default function FormMovimientos(){
                 disableColumnSelector
                 disableDensitySelector
                 disableExtendRowFullWidth
-                onSelectionModelChange={Prueba}/>
+                onSelectionModelChange={handleRowCheck}/>
             </Box>
         </Modal>
         </Paper>

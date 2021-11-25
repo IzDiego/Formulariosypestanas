@@ -10,10 +10,11 @@ import Modal from '@mui/material/Modal';
 import FormComprobantes from './FormComprobantes';
 import FormAjustes from './FormAjustes';
 import FormMovimientos from './FormMovimientos';
+import {AppContext} from "../application/provider" 
+import {useState,useContext} from 'react'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
-  
     return (
       <div
         role="tabpanel"
@@ -49,6 +50,7 @@ function TabPanel(props) {
 export default function Pestanas(){
     
     const [value, setValue] = React.useState(0);
+    const [Dinero,setDinero]=useContext(AppContext)
     
   
     const handleChange = (event, newValue) => {
@@ -57,6 +59,9 @@ export default function Pestanas(){
   
     return (
       <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider',padding:3 }}>
+        <Typography>Agregar Pago|  Aplicable: {Dinero.Pago} {Dinero.TipoMoneda} Por Aplicar: {Dinero.Pago-Dinero.Aplicable} {Dinero.TipoMoneda} </Typography>
+        </Box> 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
             <Tab label="Información del pago" {...a11yProps(0)} />

@@ -1,10 +1,11 @@
 import {Autocomplete, FormControl,  FormControlLabel,  Grid,  Typography} from "@mui/material"
 import TextField from '@mui/material/TextField';
 import {useQuery} from "react-query"
-import { useState } from "react";
+import { useState,useContext } from "react";
 import Checkbox from "@mui/material/Checkbox"
 import Paper from "@mui/material/Paper";
 import Box from '@mui/material/Box';
+import {AppContext} from "../application/provider" 
 
 
 const fetchEmisorRequest = async(Emisor)=>{
@@ -68,16 +69,10 @@ export default function Formulario() {
   const [Formas,setFormas]=useState('')
   const [Status,setStatus]=useState('')
   const [Moneda,setMoneda]=useState('')
-
+  const [Dinero,setDinero]=useContext(AppContext)
   const [ConfirmacionFondos, setFondosI] = useState(false);
   const [ConfirmacionPago,setConfiP]=useState(false);
-  const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
-  const handleCheckPago=e=>{setConfiP(e.target.checked)}
-  
-  const handleEmisorChange=e=>{setEmisor(e.target.value)}
-  const handleStatusChange=e=>{setStatus(e.target.value)}
-  const handleFormaChange=e=>{setFormas(e.target.value)}
-  const handleMonedaChange=e=>{setMoneda(e.target.value)}
+  const [Monto,setMonto]=useState(0)
   
   var ListaMonedas=[]
   var Emisores=[]
@@ -138,6 +133,63 @@ export default function Formulario() {
 
   const tamanoh=450
 
+  const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
+  const handleCheckPago=e=>{setConfiP(e.target.checked)}
+  
+  const handleEmisorChange=e=>{setEmisor(e.target.value)}
+  const handleEmisorSelect=(e,value)=>{
+    if(value){
+      setEmisor(value)
+    }
+    else{
+      setEmisor('')
+    }
+  }
+  const handleStatusChange=e=>{setStatus(e.target.value)}
+  const handleFormaChange=e=>{setFormas(e.target.value)}
+  
+  const handleMonedaChange=(e)=>{
+    setMoneda(e.target.value)
+    setDinero(prevDinero=>({
+      ...prevDinero,
+      ["TipoMoneda"]:e.target.value
+  }))
+  }
+ 
+  const handleMonedaSelect=(e,value)=>{
+    if(value){
+      setMoneda(value.substring(0,3))
+      setDinero(prevDinero=>({
+        ...prevDinero,
+        ["TipoMoneda"]:value.substring(0,3)
+      }))
+    }
+    else{
+      setMoneda('')
+      setDinero(prevDinero=>({
+        ...prevDinero,
+        ["TipoMoneda"]:''
+      }))
+    }
+  }
+
+  const handleMontoChange=e=>{
+    if(e.target.value===''){
+      setMonto(0)
+      setDinero(prevDinero=>({
+        ...prevDinero,
+        ["Aplicable"]:0
+      }))
+    }
+    else{
+    setMonto(e.target.value)
+    setDinero(prevDinero=>({
+      ...prevDinero,
+      ["Aplicable"]:e.target.value
+    }))
+  }
+  }
+/*
   const aparecerpago={
     display:ConfirmacionPago? 'flex':'none', 
     width: tamanoh,
@@ -148,6 +200,7 @@ export default function Formulario() {
     width: tamanoh,
     p:1        
   }
+  */
   
   return (
     <div >    
@@ -157,10 +210,10 @@ export default function Formulario() {
          Información del pago
        </Typography>
         <Autocomplete disablePortal id="ClienteAuto" options={Clientes} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/>
-        <Autocomplete disablePortal onInputChange={handleEmisorChange} id="EmisorAuto" options={Emisores} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/>
-        <TextField sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField>
-        <TextField sx={{width:tamanoh,p:1}} label="Monto Aplicable"  disabled={true}></TextField>
-        <Autocomplete disablePortal onInputChange={handleMonedaChange} id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>   
+        <Autocomplete onChange={handleEmisorSelect} disablePortal onInputChange={handleEmisorChange} id="EmisorAuto" options={Emisores} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/>
+        <TextField onChange={handleMontoChange} type="number" sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField>
+        <TextField type="number" value={Dinero.Aplicable} sx={{width:tamanoh,p:1}} label="Monto Aplicable"  disabled={true}></TextField>
+        <Autocomplete disablePortal onChange={handleMonedaSelect} onInputChange={handleMonedaChange} id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>   
         <TextField sx={{width:tamanoh,p:1}} label="Tipo de cambio" ></TextField>
         <Autocomplete disablePortal onInputChange={handleFormaChange} id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>     
         <TextField label="Fecha" type="datetime-local" sx={{width:tamanoh,p:1}}     InputLabelProps={{shrink: true}}/>
@@ -168,6 +221,7 @@ export default function Formulario() {
         <TextField sx={{width:tamanoh,p:1}} label="Numero Operacion"  disabled={true}></TextField>
         <TextField sx={{width:tamanoh,p:1}} label="Observaciones" ></TextField>
        </Box> 
+       {/*
         <Box sx={{padding:3}}>
         <FormControlLabel onChange={handleCheckIngreso} control={<Checkbox />} label="Ya ingresaron los fondos a la cuenta ?"/>
         <Autocomplete disablePortal   id="CuentaBancaria" options={ListaCuentas} sx={aparecerfondos} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
@@ -179,6 +233,7 @@ export default function Formulario() {
         <TextField type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>
         <TextField sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    
         </Box>
+        */}
       </Paper>
     </div>
   )
