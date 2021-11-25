@@ -22,7 +22,13 @@ export default function FormMovimientos(){
     const [Dinero,setDinero]=useContext(AppContext)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const handleCancelar=()=>setId([]);
+    const handleCancelar=()=>{setId([])
+        setDinero(prevDinero=>({
+            ...prevDinero,
+            ["Pago"]:0,
+            ["Aplicable"]:0
+        }))
+    }
 
     
     const columns=[
@@ -59,8 +65,10 @@ export default function FormMovimientos(){
     const [SumaComprobantes,setSuma]=useState(0)
     const handleGuardar=()=>{
         var aux=0
+        var aux2=''
         for(let i of DatosTabla){
             aux+=i.monto
+            aux2=i.referencia
         }
         setDinero(prevDinero=>({
             ...prevDinero,
