@@ -65,9 +65,6 @@ const fetchMonedasRequest = async(Moneda)=>{
   return Monedas
 }
 export default function Formulario(props) {
-  
-
-
   var ListaMonedas=[]
   var Emisores=[]
   var ListaForma=[]
