@@ -124,9 +124,7 @@ export default function Formulario(props) {
 
   const tamanoh=450
 
-  // const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
- 
-  
+
   
   const aparecerpago={
     display:props.ConfirmacionPago? 'flex':'none', 
@@ -140,7 +138,7 @@ export default function Formulario(props) {
   }
   
   return (
-    <div >    
+    <div>    
       <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
       <Box sx={{padding:3}}>
         <Typography component="h1" variant="h5">

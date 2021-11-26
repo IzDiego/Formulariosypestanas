@@ -111,6 +111,7 @@ export default function Pestanas(){
     }
 
     return (
+      <div>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider',padding:3 }}>
         <Typography>Agregar Pago|  Aplicable: {Dinero.Pago*DatosPrueba.tipodecambio} {moneda} Por Aplicar: {(Dinero.Pago-DatosPrueba.montorecibido)*DatosPrueba.tipodecambio} {moneda} </Typography>
@@ -140,5 +141,6 @@ export default function Pestanas(){
         <FormMovimientos/>       
         </TabPanel>
       </Box>
+      </div>
     );
 }
