@@ -65,6 +65,7 @@ const fetchMonedasRequest = async(Moneda)=>{
   return Monedas
 }
 export default function Formulario(props) {
+  console.log(props.values)
   var ListaMonedas=[]
   var Emisores=[]
   var ListaForma=[]
@@ -73,7 +74,7 @@ export default function Formulario(props) {
   const { data: ListaStatus1}=useQuery(["Status",props.values.status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",props.values.formadepago],fetchFormaRequest)
   const {data:ListaMonedas1}=useQuery(["Monedas",props.values.moneda],fetchMonedasRequest)
-  console.log(props.values)
+  
 
   if(ListaMonedas1){
     for(let Mone of ListaMonedas1){
