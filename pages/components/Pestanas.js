@@ -52,7 +52,7 @@ export default function Pestanas(){
       cliente:'',
       emisor:'',
       montorecibido:0,
-      montoaplicable:'',
+      montoaplicable:0,
       moneda:'',
       tipodecambio:0,
       formadepago:'',
@@ -110,6 +110,21 @@ export default function Pestanas(){
       }
     }
 
+    const handleGuardarTabla=input=>(e)=>{
+      console.log(input)
+      setDprueba(prevDprueba=>({
+        ...prevDprueba,
+        ["emisor"]:input[0].emisor,
+        ["montorecibido"]:input[0].monto,
+        ["moneda"]:input[0].moneda,
+        ["tipodecambio"]:input[0].tipodecambio,
+        ["fecha"]:input[0].fecha,
+        ["status"]:input[0].status,
+        ["numeroperacion"]:input[0].referencia,
+        ["formadepago"]:input[0].formadepago
+      }))
+    }
+
     return (
       <div>
       <Box sx={{ width: '100%' }}>
@@ -138,7 +153,8 @@ export default function Pestanas(){
           <FormComprobantes/>
         </TabPanel>
         <TabPanel value={value} index={2}>
-        <FormMovimientos/>       
+        <FormMovimientos
+        handleGuardarTabla={handleGuardarTabla}/>       
         </TabPanel>
       </Box>
       </div>

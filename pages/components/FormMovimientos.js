@@ -16,7 +16,7 @@ import {AppContext} from "../application/provider"
 
 
 
-export default function FormMovimientos(){
+export default function FormMovimientos(props){
     const [open, setOpen] = useState(false);
     const [Idactual,setId]=useState([])
     const [Dinero,setDinero]=useContext(AppContext)
@@ -36,20 +36,19 @@ export default function FormMovimientos(){
         {field:"fecha",headerName:"Fecha",width:150},
         {field:"concepto",headerName:"Concepto",width:200},
         {field:"referencia",headerName:"Referencia",width:100},
-        {field:"pago",headerName:"Pago",width:100},
-        {field:"gasto",headerName:"Gasto",width:100},
         {field:"monto",headerName:"Monto",width:100}
     ]
     
       const lista=[
-          {id:"75787",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1234",pago:"",gasto:"",monto:4383.16},
-          {id:"75789",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1235",pago:"",gasto:"",monto:6201.29},
-          {id:"75788",fecha:"04-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1236",pago:"",gasto:"",monto:7351.73},
-          {id:"75806",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1237",pago:"",gasto:"",monto:1684.27},
-          {id:"75804",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1238",pago:"",gasto:"",monto:2428.55},
-          {id:"75802",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1239",pago:"",gasto:"",monto:3614.24},
-          {id:"75797",fecha:"03-Nov-2021",concepto:"Pago cuenta de tercero",referencia:"1231",pago:"",gasto:"",monto:4173.53},
+          {id:"75787",fecha:"04-Nov-2021T12:23",concepto:"TEF Recibido Bank of America",referencia:"1234",monto:4383.16,tipodecambio:1,emisor:"Holo", moneda:"MXN",  formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75789",fecha:"04-Nov-2021T01:43",concepto:"TEF Recibido Bank of America",referencia:"1235",monto:6201.29,tipodecambio:21.2,emisor:"Live", moneda:"USD", formadepago:"Cheque normativo",                     status:"Salvo Buen Cobro"},
+          {id:"75788",fecha:"04-Nov-2021T02:33",concepto:"TEF Recibido Bank of America",referencia:"1236",monto:7351.73,tipodecambio:1,emisor:"Fate", moneda:"MXM" ,formadepago:"Transferencia electrónica de fondos",  status:"Tenemos documento"},
+          {id:"75806",fecha:"03-Nov-2021T03:53",concepto:"TEF Recibido Bank of America",referencia:"1237",monto:1684.27,tipodecambio:23,emisor:"Go",   moneda:"EUR" , formadepago:"Tarjeta de crédito",                   status:"Tenemos promesa de pago"},
+          {id:"75804",fecha:"03-Nov-2021T02:43",concepto:"TEF Recibido Bank of America",referencia:"1238",monto:2428.55,tipodecambio:1,emisor:"Fatal",moneda:"MXN" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75802",fecha:"03-Nov-2021T03:43",concepto:"TEF Recibido Bank of America",referencia:"1239",monto:3614.24,tipodecambio:21.2,emisor:"Frame",moneda:"USD" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75797",fecha:"03-Nov-2021T13:43",concepto:"Pago cuenta de tercero",      referencia:"1231",monto:4173.53,tipodecambio:23,emisor:"Asd",  moneda:"EUR" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
       ]
+
 
 
     var DatosTabla=[]
@@ -64,18 +63,7 @@ export default function FormMovimientos(){
     }
 
     const [SumaComprobantes,setSuma]=useState(0)
-    const handleGuardar=()=>{
-        var aux=0
-        var aux2=''
-        for(let i of DatosTabla){
-            aux+=i.monto
-            aux2=i.referencia
-        }
-        setDinero(prevDinero=>({
-            ...prevDinero,
-            ["Pago"]:aux
-        }))
-    }
+    
 
     const handleRowCheck=e=>{
         var aux=[]
@@ -132,7 +120,7 @@ export default function FormMovimientos(){
             </Table>
         </TableContainer>
         <Button variant="contained"  color="error" onClick={handleCancelar} >Cancelar</Button>
-        <Button variant="contained"  color="success" onClick={handleGuardar} >Guardar Pago</Button>
+        <Button variant="contained"  color="success" onClick={props.handleGuardarTabla(DatosTabla)} >Guardar Pago</Button>
         </Box>
         
 

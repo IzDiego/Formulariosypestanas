@@ -154,10 +154,8 @@ export default function Formulario(props) {
         <Autocomplete value={props.values.formadepago} defaultValue={props.values.formadepago} onChange={props.handleFormSelect('formadepago')} onInputChange={props.handleFormInput('formadepago')} disablePortal   id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>     <br/>   
         <TextField disabled={true} value={props.values.fecha} onChange={props.handleFormInput('fecha')} label="Fecha" type="datetime-local" sx={{width:tamanoh,p:1}}     InputLabelProps={{shrink: true}}/><br/>   
         <Autocomplete  value={props.values.status} defaultValue={props.values.status} onChange={props.handleFormSelect('status')} onInputChange={props.handleFormInput('status')} disablePortal  id="StatusAuto" options={ListaStatus} sx={{ width: tamanoh ,p:1}} renderInput={(params) => <TextField {...params} label="Status"/>}/><br/>
-        {/*
-        Falta que hace esto
-        */}
-        <TextField sx={{width:tamanoh,p:1}} label="Numero Operacion"  disabled={true}></TextField><br/>
+ 
+        <TextField value={props.values.numeroperacion} sx={{width:tamanoh,p:1}} label="Numero Operacion"  disabled={true}></TextField><br/>
         
         <TextField value={props.values.observaciones} onChange={props.handleFormInput('observaciones')} sx={{width:tamanoh,p:1}} label="Observaciones" ></TextField><br/>
        
