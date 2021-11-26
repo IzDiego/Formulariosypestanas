@@ -56,16 +56,16 @@ export default function Pestanas(){
       moneda:'',
       tipodecambio:0,
       formadepago:'',
-      fecha:null,
+      fecha:'',
       status:'',
       numeroperacion:'',
       observaciones:'',
 
       cuentabancaria:'',
-      fechadeingreso:null,
+      fechadeingreso:'',
       montoregistrado:0,
 
-      fechadecomfirmacion:null,
+      fechadecomfirmacion:'',
       observacionesalconfirmar:''
 
 
