@@ -50,6 +50,11 @@ export default function FormMovimientos(){
           {id:"75802",fecha:"03-Nov-2021",concepto:"TEF Recibido Bank of America",referencia:"1239",pago:"",gasto:"",monto:3614.24},
           {id:"75797",fecha:"03-Nov-2021",concepto:"Pago cuenta de tercero",referencia:"1231",pago:"",gasto:"",monto:4173.53},
       ]
+      const prueba=[
+          {
+              
+          }
+      ]
 
     var DatosTabla=[]
     if(Idactual){

@@ -64,25 +64,19 @@ const fetchMonedasRequest = async(Moneda)=>{
   const {Monedas}=data;
   return Monedas
 }
-export default function Formulario() {
-  const [Emisor,setEmisor]=useState('')
-  const [Formas,setFormas]=useState('')
-  const [Status,setStatus]=useState('')
-  const [Moneda,setMoneda]=useState('')
-  const [Dinero,setDinero]=useContext(AppContext)
-  const [ConfirmacionFondos, setFondosI] = useState(false);
-  const [ConfirmacionPago,setConfiP]=useState(false);
-  const [Monto,setMonto]=useState(0)
+export default function Formulario(props) {
   
+
+
   var ListaMonedas=[]
   var Emisores=[]
   var ListaForma=[]
   var ListaStatus=[]
-  const {data: Emisores1}=useQuery(["Emisor",Emisor],fetchEmisorRequest)    
-  const { data: ListaStatus1}=useQuery(["Status",Status],fetchStatusRequest) 
-  const {data:ListaForma1}=useQuery(["Formas",Formas],fetchFormaRequest)
-  const {data:ListaMonedas1}=useQuery(["Monedas",Moneda],fetchMonedasRequest)
-
+  const {data: Emisores1}=useQuery(["Emisor",props.values.emisor],fetchEmisorRequest)    
+  const { data: ListaStatus1}=useQuery(["Status",props.values.status],fetchStatusRequest) 
+  const {data:ListaForma1}=useQuery(["Formas",props.values.formadepago],fetchFormaRequest)
+  const {data:ListaMonedas1}=useQuery(["Monedas",props.values.moneda],fetchMonedasRequest)
+  console.log(props.values)
 
   if(ListaMonedas1){
     for(let Mone of ListaMonedas1){
@@ -133,74 +127,20 @@ export default function Formulario() {
 
   const tamanoh=450
 
-  const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
-  const handleCheckPago=e=>{setConfiP(e.target.checked)}
-  
-  const handleEmisorChange=e=>{setEmisor(e.target.value)}
-  const handleEmisorSelect=(e,value)=>{
-    if(value){
-      setEmisor(value)
-    }
-    else{
-      setEmisor('')
-    }
-  }
-  const handleStatusChange=e=>{setStatus(e.target.value)}
-  const handleFormaChange=e=>{setFormas(e.target.value)}
-  
-  const handleMonedaChange=(e)=>{
-    setMoneda(e.target.value)
-    setDinero(prevDinero=>({
-      ...prevDinero,
-      ["TipoMoneda"]:e.target.value
-  }))
-  }
+  // const handleCheckIngreso=e=>{setFondosI(e.target.checked)}
  
-  const handleMonedaSelect=(e,value)=>{
-    if(value){
-      setMoneda(value.substring(0,3))
-      setDinero(prevDinero=>({
-        ...prevDinero,
-        ["TipoMoneda"]:value.substring(0,3)
-      }))
-    }
-    else{
-      setMoneda('')
-      setDinero(prevDinero=>({
-        ...prevDinero,
-        ["TipoMoneda"]:''
-      }))
-    }
-  }
-
-  const handleMontoChange=e=>{
-    if(e.target.value===''){
-      setMonto(0)
-      setDinero(prevDinero=>({
-        ...prevDinero,
-        ["Aplicable"]:0
-      }))
-    }
-    else{
-    setMonto(e.target.value)
-    setDinero(prevDinero=>({
-      ...prevDinero,
-      ["Aplicable"]:e.target.value
-    }))
-  }
-  }
-/*
+  
+  
   const aparecerpago={
-    display:ConfirmacionPago? 'flex':'none', 
+    display:props.ConfirmacionPago? 'flex':'none', 
     width: tamanoh,
     p:1      
   }
   const aparecerfondos={
-    display:ConfirmacionFondos? 'flex':'none', 
+    display:props.ConfirmacionFondos? 'flex':'none', 
     width: tamanoh,
     p:1        
   }
-  */
   
   return (
     <div >    
@@ -209,31 +149,31 @@ export default function Formulario() {
         <Typography component="h1" variant="h5">
          Información del pago
        </Typography>
-        <Autocomplete disablePortal id="ClienteAuto" options={Clientes} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/>
-        <Autocomplete onChange={handleEmisorSelect} disablePortal onInputChange={handleEmisorChange} id="EmisorAuto" options={Emisores} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/>
-        <TextField onChange={handleMontoChange} type="number" sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField>
-        <TextField type="number" value={Dinero.Aplicable} sx={{width:tamanoh,p:1}} label="Monto Aplicable"  disabled={true}></TextField>
-        <Autocomplete disablePortal onChange={handleMonedaSelect} onInputChange={handleMonedaChange} id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>   
-        <TextField sx={{width:tamanoh,p:1}} label="Tipo de cambio" ></TextField>
-        <Autocomplete disablePortal onInputChange={handleFormaChange} id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>     
-        <TextField label="Fecha" type="datetime-local" sx={{width:tamanoh,p:1}}     InputLabelProps={{shrink: true}}/>
-        <Autocomplete disablePortal onInputChange={handleStatusChange} id="StatusAuto" options={ListaStatus} sx={{ width: tamanoh ,p:1}} renderInput={(params) => <TextField {...params} label="Status"/>}/>
-        <TextField sx={{width:tamanoh,p:1}} label="Numero Operacion"  disabled={true}></TextField>
-        <TextField sx={{width:tamanoh,p:1}} label="Observaciones" ></TextField>
-       </Box> 
-       {/*
-        <Box sx={{padding:3}}>
-        <FormControlLabel onChange={handleCheckIngreso} control={<Checkbox />} label="Ya ingresaron los fondos a la cuenta ?"/>
-        <Autocomplete disablePortal   id="CuentaBancaria" options={ListaCuentas} sx={aparecerfondos} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/>
-        <TextField type="date"  sx={aparecerfondos}  InputLabelProps={{shrink: true}} label="Fecha de ingreso"/>
-        <TextField sx={aparecerfondos} label="Monto Registrado" ></TextField>     
-        </Box>
-        <Box sx={{padding:3}}>
-        <FormControlLabel onChange={handleCheckPago}  control={<Checkbox />}  label="El cliente confirmo el pago?"/>
-        <TextField type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/>
-        <TextField sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    
-        </Box>
+        <Autocomplete value={props.values.cliente} defaultValue={props.values.cliente} onChange={props.handleFormSelect('cliente')} onInputChange={props.handleFormInput('cliente')} disablePortal id="ClienteAuto" options={Clientes} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/><br/>
+        <Autocomplete value={props.values.emisor} defaultValue={props.values.emisor} onChange={props.handleFormSelect('emisor')} onInputChange={props.handleFormInput('emisor')} disablePortal  id="EmisorAuto" options={Emisores} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/><br/>
+        <TextField defaultValue={props.values.montorecibido} onChange={props.handleFormInput('montorecibido')} type="number" sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField><br/>
+        <TextField value={props.values.montorecibido} type="number"  sx={{width:tamanoh,p:1}} label="Monto Aplicable"  disabled={true}></TextField><br/>
+        <Autocomplete  value={props.values.moneda} defaultValue={props.values.moneda} onChange={props.handleFormSelect('moneda')} onInputChange={props.handleFormInput('moneda')} disablePortal  id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>  <br/> 
+        <TextField sx={{width:tamanoh,p:1}} type="number" value={props.values.tipodecambio} onChange={props.handleFormInput('tipodecambio')} label="Tipo de cambio" ></TextField><br/>      
+        <Autocomplete value={props.values.formadepago} defaultValue={props.values.formadepago} onChange={props.handleFormSelect('formadepago')} onInputChange={props.handleFormInput('formadepago')} disablePortal   id="FormaPAuto" options={ListaForma} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Forma Pago"/>}/>     <br/>   
+        <TextField disabled={true} value={props.values.fecha} onChange={props.handleFormInput('fecha')} label="Fecha" type="datetime-local" sx={{width:tamanoh,p:1}}     InputLabelProps={{shrink: true}}/><br/>   
+        <Autocomplete  value={props.values.status} defaultValue={props.values.status} onChange={props.handleFormSelect('status')} onInputChange={props.handleFormInput('status')} disablePortal  id="StatusAuto" options={ListaStatus} sx={{ width: tamanoh ,p:1}} renderInput={(params) => <TextField {...params} label="Status"/>}/><br/>
+        {/*
+        Falta que hace esto
         */}
+        <TextField sx={{width:tamanoh,p:1}} label="Numero Operacion"  disabled={true}></TextField><br/>
+        
+        <TextField value={props.values.observaciones} onChange={props.handleFormInput('observaciones')} sx={{width:tamanoh,p:1}} label="Observaciones" ></TextField><br/>
+       
+        <FormControlLabel checked={props.ConfirmacionFondos} onChange={props.handleCheckIngreso('Ingreso')} control={<Checkbox />} label="Ya ingresaron los fondos a la cuenta ?"/>
+        <Autocomplete value={props.values.cuentabancaria} defaultValue={props.values.cuentabancaria} onChange={props.handleFormSelect('cuentabancaria')} onInputChange={props.handleFormInput('cuentabancaria')} disablePortal   id="CuentaBancaria" options={ListaCuentas} sx={aparecerfondos} renderInput={(params) => <TextField {...params} label="Cuenta Bancaria"/>}/><br/>
+        <TextField value={props.values.fechadeingreso} onChange={props.handleFormInput('fechadeingreso')} type="date"  sx={aparecerfondos}  InputLabelProps={{shrink: true}} label="Fecha de ingreso"/><br/>
+        <TextField value={props.values.montoregistrado} onChange={props.handleFormInput('montoregistrado')} sx={aparecerfondos} type="number" label="Monto Registrado" ></TextField>  
+        
+        <FormControlLabel checked={props.ConfirmacionPago} onChange={props.handleCheckPago('Pago')}  control={<Checkbox />}  label="El cliente confirmo el pago?"/>
+        <TextField value={props.values.fechadeconfirmacion} onChange={props.handleFormInput('fechadeconfirmacion')} type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/><br/>
+        <TextField value={props.values.observacionesalconfirmar} onChange={props.handleFormInput('observacionesalconfirmar')}  sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    <br/>
+        </Box>
       </Paper>
     </div>
   )
