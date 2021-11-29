@@ -40,13 +40,13 @@ export default function FormMovimientos(props){
     ]
     
       const lista=[
-          {id:"75787",fecha:"04-Nov-2021T12:23",concepto:"TEF Recibido Bank of America",referencia:"1234",monto:4383.16,tipodecambio:1,emisor:"Holo", moneda:"MXN",  formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75789",fecha:"04-Nov-2021T01:43",concepto:"TEF Recibido Bank of America",referencia:"1235",monto:6201.29,tipodecambio:21.2,emisor:"Live", moneda:"USD", formadepago:"Cheque normativo",                     status:"Salvo Buen Cobro"},
-          {id:"75788",fecha:"04-Nov-2021T02:33",concepto:"TEF Recibido Bank of America",referencia:"1236",monto:7351.73,tipodecambio:1,emisor:"Fate", moneda:"MXM" ,formadepago:"Transferencia electrónica de fondos",  status:"Tenemos documento"},
-          {id:"75806",fecha:"03-Nov-2021T03:53",concepto:"TEF Recibido Bank of America",referencia:"1237",monto:1684.27,tipodecambio:23,emisor:"Go",   moneda:"EUR" , formadepago:"Tarjeta de crédito",                   status:"Tenemos promesa de pago"},
-          {id:"75804",fecha:"03-Nov-2021T02:43",concepto:"TEF Recibido Bank of America",referencia:"1238",monto:2428.55,tipodecambio:1,emisor:"Fatal",moneda:"MXN" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75802",fecha:"03-Nov-2021T03:43",concepto:"TEF Recibido Bank of America",referencia:"1239",monto:3614.24,tipodecambio:21.2,emisor:"Frame",moneda:"USD" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75797",fecha:"03-Nov-2021T13:43",concepto:"Pago cuenta de tercero",      referencia:"1231",monto:4173.53,tipodecambio:23,emisor:"Asd",  moneda:"EUR" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75787",fecha:"2021-11-04T12:23",concepto:"TEF Recibido Bank of America",referencia:"1234",monto:4383.16,tipodecambio:1,emisor:"Holo", moneda:"MXN",  formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75789",fecha:"2021-11-04T01:43",concepto:"TEF Recibido Bank of America",referencia:"1235",monto:6201.29,tipodecambio:21.2,emisor:"Live", moneda:"USD", formadepago:"Cheque normativo",                     status:"Salvo Buen Cobro"},
+          {id:"75788",fecha:"2021-11-04T02:33",concepto:"TEF Recibido Bank of America",referencia:"1236",monto:7351.73,tipodecambio:1,emisor:"Fate", moneda:"MXM" ,formadepago:"Transferencia electrónica de fondos",  status:"Tenemos documento"},
+          {id:"75806",fecha:"2021-11-03T03:53",concepto:"TEF Recibido Bank of America",referencia:"1237",monto:1684.27,tipodecambio:23,emisor:"Go",   moneda:"EUR" , formadepago:"Tarjeta de crédito",                   status:"Tenemos promesa de pago"},
+          {id:"75804",fecha:"2021-11-03T02:43",concepto:"TEF Recibido Bank of America",referencia:"1238",monto:2428.55,tipodecambio:1,emisor:"Fatal",moneda:"MXN" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75802",fecha:"2021-11-03T03:43",concepto:"TEF Recibido Bank of America",referencia:"1239",monto:3614.24,tipodecambio:21.2,emisor:"Frame",moneda:"USD" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
+          {id:"75797",fecha:"2021-11-03T13:43",concepto:"Pago cuenta de tercero",      referencia:"1231",monto:4173.53,tipodecambio:23,emisor:"Asd",  moneda:"EUR" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
       ]
 
 
@@ -62,8 +62,7 @@ export default function FormMovimientos(props){
         }
     }
 
-    const [SumaComprobantes,setSuma]=useState(0)
-    
+  
 
     const handleRowCheck=e=>{
         var aux=[]

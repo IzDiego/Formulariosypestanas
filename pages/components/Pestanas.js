@@ -47,7 +47,6 @@ function TabPanel(props) {
 export default function Pestanas(){
     
     const [value, setValue] = React.useState(0);
-    const [Dinero,setDinero]=useContext(AppContext)
     const [DatosPrueba,setDprueba]=useState({
       cliente:'',
       emisor:'',
@@ -70,9 +69,19 @@ export default function Pestanas(){
 
 
     })
+    const [contador,setContador]=useState(1)
     const [ConfirmacionFondos, setFondos] = useState(false);
     const [ConfirmacionPago,setConfiP]=useState(false);
-    
+    const [ComprobantesRelacionados,setComprobantes]=useState([
+      {comprobante:'',numerodeparcialidad:1,usodecfdi:"G01",formadepago:10,importe:0}
+    ])
+
+
+    const [Comprobantenombre,setComprobantenombre]=useState([''])
+    const [Comprobantenumerodeparcialidad,setComprobanteparcialidad]=useState([1])
+    const [Comprobantecfdi,setCfdi]=useState(['G01'])
+    const [Comprobanteformadepago,setFormadepago]=useState([10])
+    const [Comprobanteimporte,setImporte]=useState([0])
     
     const handleCheckIngreso=input=>e=>{setFondos(e.target.checked)}
     const handleCheckPago=input=>e=>{setConfiP(e.target.checked)}
@@ -84,14 +93,93 @@ export default function Pestanas(){
     const handletabsChange = (event, newValue) => {
       setValue(newValue);
     }
+
+
+    const agregarComprobante=input=>e=>{
+      setContador(contador+1)
+      var aux=Comprobantenombre
+      var aux2=''
+      aux.push(aux2)
+      setComprobantenombre(aux)
+      
+      aux=Comprobantenumerodeparcialidad
+      aux2=1
+      aux.push(aux2)
+      setComprobanteparcialidad(aux)
+      
+      aux=Comprobantecfdi
+      aux2='G01'
+      aux.push(aux2)
+      setCfdi(aux)
+      
+      aux=Comprobanteformadepago
+      aux2=10
+      aux.push(aux2)
+      setFormadepago(aux)
+
+      aux=Comprobanteimporte
+      aux2=0
+      aux.push(aux2)
+      setImporte(aux)
+
+    }
+    const guardarComprobante=input=>e=>{
+      var aux=0
+      for(let pago of Comprobanteimporte){
+    
+        aux+=parseFloat(pago)
+      }
+      setDprueba(prevDprueba=>({
+        ...prevDprueba,
+        ["montoregistrado"]:aux
+      })) 
+    
+    }
+
+    const handleusocfdi=i=>e=>{
+      var aux=[...Comprobantecfdi]
+      aux[i]=e.target.value
+      setCfdi(aux)
+    }
+
+    const handleformadepago=i=>e=>{
+      var aux=[...Comprobanteformadepago]
+      aux[i]=e.target.value
+      setFormadepago(aux)
+    }
+
+    const handleparcialidad=(i)=>(e,value)=>{
+      var aux=[...Comprobantenumerodeparcialidad]
+      if(value){
+        aux[i]=value
+      }
+      else{
+        aux[i]=1  
+      }
+      setComprobanteparcialidad(aux)
+    }
   
+    const handleimporte=(i)=>e=>{
+      if(e){
+        var aux=[...Comprobanteimporte]
+        aux[i]=e.target.value
+        setImporte(aux)
+      }
+    }
+
+    const handlecomprobanteinput=i=>e=>{
+      if(e){
+        var aux=[...Comprobantenombre]
+        aux[i]=e.target.value
+        setComprobantenombre(aux)
+      }
+    }
     const handleFormInput=input=>e=>{
       if(e){
       setDprueba(prevDprueba=>({
         ...prevDprueba,
         [input]:e.target.value
-      }))
- 
+      })) 
       }
     }
 
@@ -108,6 +196,16 @@ export default function Pestanas(){
           [input]:''
         }))
       }
+    }
+    const handleselectcomprobante=i=>(e,value)=>{
+      var aux=[...Comprobantenombre]
+      if(value){
+        aux[i]=value
+      }
+      else{
+        aux[i]=''
+      }
+      setComprobantenombre(aux)
     }
 
     const handleGuardarTabla=input=>(e)=>{
@@ -129,7 +227,7 @@ export default function Pestanas(){
       <div>
       <Box sx={{ width: '100%' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider',padding:3 }}>
-        <Typography>Agregar Pago|  Aplicable: {Dinero.Pago*DatosPrueba.tipodecambio} {moneda} Por Aplicar: {(Dinero.Pago-DatosPrueba.montorecibido)*DatosPrueba.tipodecambio} {moneda} </Typography>
+        <Typography>Agregar Pago|  Aplicable: {parseFloat(DatosPrueba.montorecibido*DatosPrueba.tipodecambio).toFixed(2)} MXN Por Aplicar: {parseFloat((DatosPrueba.montorecibido-DatosPrueba.montoregistrado)*DatosPrueba.tipodecambio).toFixed(2)} MXN </Typography>
         </Box> 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handletabsChange} aria-label="basic tabs example">
@@ -150,7 +248,23 @@ export default function Pestanas(){
          /> 
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <FormComprobantes/>
+          <FormComprobantes
+          agregarComprobante={agregarComprobante}
+          handleparcialidad={handleparcialidad}
+          handleimporte={handleimporte}
+          handleformadepago={handleformadepago}
+          handleusocfdi={handleusocfdi}
+          contador={contador}
+          ComprobantesRelacionados={ComprobantesRelacionados}
+          Comprobanteimporte={Comprobanteimporte}
+          Comprobanteformadepago={Comprobanteformadepago}
+          Comprobantecfdi={Comprobantecfdi}
+          Comprobantenumerodeparcialidad={Comprobantenumerodeparcialidad}
+          Comprobantenombre={Comprobantenombre}
+          handleselectcomprobante={handleselectcomprobante}
+          handlecomprobanteinput={handlecomprobanteinput}
+          guardarComprobante={guardarComprobante}
+          />
         </TabPanel>
         <TabPanel value={value} index={2}>
         <FormMovimientos

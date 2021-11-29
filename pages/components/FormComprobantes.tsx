@@ -8,106 +8,87 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import { Typography } from "@mui/material";
 
-export default function FormComprobantes() {
-  const [comprobante, setComprobante] = React.useState("id, fecha, total");
-  const [cfdi, setCfdi] = React.useState("G01 - Adquisición de mercancias");
-  const [numParcialidad, setNumParcialidad] = React.useState(1);
-  const [formaPago, setFormaPago] = React.useState("01 - Efectivo");
+export default function FormComprobantes(props) {
+  const importe=props.Comprobanteimporte
+  const formadepago=props.Comprobanteformadepago
+  const usocfdi=props.Comprobantecfdi
+  const numeroparcialidad=props.Comprobantenumerodeparcialidad
+  const comprobante=props.Comprobantenombre
 
-  const handleChangeCFDI = (event: any) => {
-    setCfdi(event.target.value);
-  };
-
-  const handleChangeFormaPago = (event: any) => {
-    setFormaPago(event.target.value);
-  };
-
-  const handleChangeComprobante = (e: any) => {
-    if (e.target.value.length === 0) {
-      setComprobante("");
-    } else {
-      setComprobante(e.target.value);
-    }
-  };
-
+  const tamanoh=450
+  var auxiliararreglo=[]
+  for(var i=0; i<props.contador;i++){
+    auxiliararreglo.push(i)
+  }
+  
+  
   return (
     <div>
-      <Paper
-        elevation={24}
-        sx={{
-          bgcolor: "#e1f5fe",
-        }}
-      >
-        <Grid container spacing={2} padding={3}>
-          <Grid item xs={6}>
-            <Autocomplete
-              id="combo-box-demo"
-              options={[]}
-              renderInput={(params) => (
-                <>
-                  <TextField
-                    {...params}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={handleChangeComprobante}
-                    label="Comprobante"
-                    value="Comprobante"
-                  />
-                </>
-              )}
-            />{" "}
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="num-parcialidad">{numParcialidad}</InputLabel>
-              <TextField
-                disabled
-                InputLabelProps={{ shrink: true }}
-                label="Numero de Parcialidad"
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="uso-CFDI">Uso de CFDI</InputLabel>
-              <Select
-                value={cfdi}
-                label="Uso de CFDI"
-                onChange={handleChangeCFDI}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={"G01 - Adquisición de mercancias"}>
-                  G01 - Adquisición de mercancias
-                </MenuItem>
-                <MenuItem value={"G02"}>G02</MenuItem>
-                <MenuItem value={"G03"}>G03</MenuItem>
-              </Select>
-              <FormHelperText>Elige el que necesites</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl sx={{ width: "100%" }} id="forma-pago">
-              <InputLabel>
-                Forma de Pago
-              </InputLabel>
-              <Select
-                value={formaPago}
-                label="Forma de Pago"
-                onChange={handleChangeFormaPago}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>01 - Efectivo</MenuItem>
-                <MenuItem value={20}>02 - </MenuItem>
-                <MenuItem value={30}>03 - </MenuItem>
-              </Select>
-              <FormHelperText>Elige el que necesites</FormHelperText>
-            </FormControl>
-          </Grid>
-        </Grid>
+      <Paper elevation={24} sx={{bgcolor: "#e1f5fe"}}>        
+        {auxiliararreglo.map((auxiliar,i)=>{
+          return(
+          <div key={"Comprobante"+i}>
+            <Box  sx={{padding:3}}>
+              <Typography component="h1" variant="h5">
+              Información del comprobante {i+1}
+              </Typography>
+              <br/>
+              <FormControl sx={{ width: tamanoh }}>
+              <Autocomplete value={comprobante[i]} onChange={props.handleselectcomprobante(i)} onInputChange={props.handlecomprobanteinput(i)}  id="combo-box-demo" options={[]} renderInput={(params) => (
+                  <><TextField {...params}InputLabelProps={{ shrink: true }}  label="Comprobante" value="Comprobante"/></>)}
+              />{" "}
+            
+              </FormControl>
+              <br/>
+              <br/>
+              <FormControl sx={{ width: tamanoh}}>
+              <Autocomplete defaultValue={1} value={numeroparcialidad[i]}  onChange={props.handleparcialidad(i)}  disablePortal  id="EmisorAuto" options={[1,2,3,4,5]}  renderInput={(params) => <TextField {...params} label="Numero de parcialidad"/>}/><br/>
+              </FormControl>
+              <br/>
+              <FormControl sx={{ width: tamanoh }}>
+                <InputLabel  id="uso-CFDI">Uso de CFDI</InputLabel>
+                <Select  value={usocfdi[i]} label="Uso de CFDI" onChange={props.handleusocfdi(i)}>
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={"G01"}>
+                    G01 - Adquisición de mercancias
+                  </MenuItem>
+                  <MenuItem value={"G02"}>G02 - Otra cosa A</MenuItem>
+                  <MenuItem value={"G03"}>G03 - Otra cosa B</MenuItem>
+                </Select>
+              </FormControl>
+              <br/>
+              <br/>
+              <FormControl sx={{ width: tamanoh }} id="forma-pago">
+                <InputLabel>Forma de Pago</InputLabel>
+                <Select  value={formadepago[i]} label="Forma de Pago" onChange={props.handleformadepago(i)}>
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>01 - Efectivo</MenuItem>
+                  <MenuItem value={20}>02 - Tarjeta de credito</MenuItem>
+                  <MenuItem value={30}>03 - Vales de despensa</MenuItem>
+                </Select>
+              </FormControl>
+              <br/>
+              <br/>
+            
+              <FormControl sx={{ width: tamanoh }} id="importe">
+              <TextField value={importe[i]} type="number"  onChange={props.handleimporte(i)} label="Monto Aplicable" ></TextField><br/>
+              </FormControl>
+            </Box>
+          </div>
+          )
+        })}
+        <Box sx={{padding:3}}>
+        <Button variant="contained"  color="primary" onClick={props.agregarComprobante('boton')} >Agregar Comprobante</Button>
+        <Button variant="contained"  color="success" onClick={props.guardarComprobante('botong')} >Guardar Comrprobante(s)</Button>
+        </Box>
       </Paper>
     </div>
   );

@@ -2,6 +2,7 @@ import {Autocomplete, FormControl,  FormControlLabel,  Grid,  Typography} from "
 import TextField from '@mui/material/TextField';
 import {useQuery} from "react-query"
 import { useState,useContext } from "react";
+import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox"
 import Paper from "@mui/material/Paper";
 import Box from '@mui/material/Box';
@@ -167,7 +168,11 @@ export default function Formulario(props) {
         <FormControlLabel checked={props.ConfirmacionPago} onChange={props.handleCheckPago('Pago')}  control={<Checkbox />}  label="El cliente confirmo el pago?"/>
         <TextField value={props.values.fechadeconfirmacion} onChange={props.handleFormInput('fechadeconfirmacion')} type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/><br/>
         <TextField value={props.values.observacionesalconfirmar} onChange={props.handleFormInput('observacionesalconfirmar')}  sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    <br/>
+        <br/>
+        <Button variant="contained"  color="success" onClick={console.log(props.values)} >Guardar Informacion</Button>
+        
         </Box>
+
       </Paper>
     </div>
   )
