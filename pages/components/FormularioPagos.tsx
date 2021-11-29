@@ -169,7 +169,7 @@ export default function Formulario(props) {
         <TextField value={props.values.fechadeconfirmacion} onChange={props.handleFormInput('fechadeconfirmacion')} type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/><br/>
         <TextField value={props.values.observacionesalconfirmar} onChange={props.handleFormInput('observacionesalconfirmar')}  sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    <br/>
         <br/>
-        <Button variant="contained"  color="success" onClick={console.log(props.values)} >Guardar Informacion</Button>
+        <Button variant="contained"  color="success" >Guardar Informacion</Button>
         
         </Box>
 
