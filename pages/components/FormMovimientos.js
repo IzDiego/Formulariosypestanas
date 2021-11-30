@@ -61,7 +61,7 @@ export default function FormMovimientos(props){
           lista=[]
       }
 
-      
+
     var DatosTabla=[]
     if(Idactual){
         for(let lis of lista){
@@ -103,7 +103,7 @@ export default function FormMovimientos(props){
         <div>
         <Paper elevation={6} sx={{bgcolor: "#e1f5fe",}}>
         <Box  sx={{padding:3}} textAlign='center'>
-        <Button variant="contained" color="primary" onClick={handleOpen} sx={{align:"center"}}>Agregar movimientos</Button>
+        <Button variant="contained" color="primary" onClick={handleOpen} >Agregar movimientos</Button>
         <TableContainer >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
