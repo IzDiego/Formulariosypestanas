@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/components/Pestanas.js", "pages/components/FormMovimientos.js"  ],
   "exclude": [
     "node_modules"
   ]

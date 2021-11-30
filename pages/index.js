@@ -1,5 +1,5 @@
 import Formulario from './components/FormularioPagos'
-import Pestanas from './components/Pestanas'
+import APestanas from './components/APestanas'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -16,7 +16,7 @@ export default function Home() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Pestanas/>
+      <APestanas/>
     </div>
   )
 }
