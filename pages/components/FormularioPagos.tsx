@@ -86,9 +86,8 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
   var Emisores=[]
   var ListaForma=[]
   var ListaStatus=[]
-  var Datos={}
   if(!values){
-    Datos={
+     var Datos={
       cliente:'',
       emisor:'',
       montorecibido:0,
@@ -108,7 +107,7 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
     }
   }
   else{
-    Datos=values
+    var Datos=values
   }
 
 
