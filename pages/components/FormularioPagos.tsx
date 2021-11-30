@@ -1,12 +1,11 @@
 import {Autocomplete, FormControl,  FormControlLabel,  Grid,  Typography} from "@mui/material"
 import TextField from '@mui/material/TextField';
 import {useQuery} from "react-query"
-import { useState,useContext } from "react";
 import Button from '@mui/material/Button';
 import Checkbox from "@mui/material/Checkbox"
 import Paper from "@mui/material/Paper";
 import Box from '@mui/material/Box';
-import {AppContext} from "../application/provider" 
+
 
 
 const fetchEmisorRequest = async(Emisor)=>{
@@ -65,8 +64,24 @@ const fetchMonedasRequest = async(Moneda)=>{
   const {Monedas}=data;
   return Monedas
 }
+
+const fetchClientesRequest = async(Cliente)=>{
+  const data2={Otro:Cliente}
+  const response= await fetch('../api/ObtenerClientes',{
+      body:JSON.stringify(data2),
+      method:'POST',
+      headers:{
+          'Content-Type':'application/json',
+      },
+  })
+  const data= await response.json()
+  const {Clientes}=data;
+  return Clientes
+}
+
+
+
 export default function Formulario(props) {
-  console.log(props.values)
   var ListaMonedas=[]
   var Emisores=[]
   var ListaForma=[]
@@ -75,11 +90,27 @@ export default function Formulario(props) {
   const { data: ListaStatus1}=useQuery(["Status",props.values.status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",props.values.formadepago],fetchFormaRequest)
   const {data:ListaMonedas1}=useQuery(["Monedas",props.values.moneda],fetchMonedasRequest)
-  
+  const {data:ListaClientes}=useQuery(["Clientes",props.values.cliente],fetchClientesRequest)
+  console.log(ListaClientes)
+
+
+  var Clientes=[]
+  var ListaCuentas=[]
+
+  if(ListaClientes){
+    for(let Cliente of ListaClientes){
+      Clientes.push(Cliente.cliente)
+      ListaCuentas.push(Cliente.cuentabancaria)
+    }
+  }
+  else{
+    Clientes=[]
+    ListaCuentas=[]
+  }
 
   if(ListaMonedas1){
     for(let Mone of ListaMonedas1){
-      ListaMonedas.push(Mone.soporte_moneda_clave+' - '+Mone.soporte_moneda_nombre)
+      ListaMonedas.push(Mone.moneda)
     }
   }
   else{
@@ -89,7 +120,7 @@ export default function Formulario(props) {
 
   if(ListaForma1){
     for(let Form of ListaForma1){
-      ListaForma.push(Form.forma+' - '+Form.forma_pago_nombre)     
+      ListaForma.push(Form.formadepago)     
     }
   }
   else{
@@ -98,7 +129,7 @@ export default function Formulario(props) {
 
   if(ListaStatus1){
     for(let Stat of ListaStatus1){
-      ListaStatus.push(Stat.status_pago_nombre)     
+      ListaStatus.push(Stat.status)     
     }
   }
   else{
@@ -108,20 +139,12 @@ export default function Formulario(props) {
 
   if(Emisores1){
     for(let Emi of Emisores1){
-      Emisores.push(Emi.empresa_nombre)
+      Emisores.push(Emi.emisor)
     }
   }
   else{
     Emisores=[]
   }
-
-  const Clientes=[
-        "Usada","Sakura","Uruha","Amane","Azki","Hoshimachi"
-    ]
-
-  const ListaCuentas=[
-    "asd1234","zxc5678","qwe0987","vbn6543"
-  ]
 
 
   const tamanoh=450
@@ -169,7 +192,7 @@ export default function Formulario(props) {
         <TextField value={props.values.fechadeconfirmacion} onChange={props.handleFormInput('fechadeconfirmacion')} type="datetime-local"  sx={aparecerpago}      InputLabelProps={{shrink: true}} label="Fecha de confirmación"/><br/>
         <TextField value={props.values.observacionesalconfirmar} onChange={props.handleFormInput('observacionesalconfirmar')}  sx={aparecerpago}   label="Observaciones al confirmar" ></TextField>    <br/>
         <br/>
-        <Button variant="contained"  color="success" >Guardar Informacion</Button>
+        <Button variant="contained"   onClick={props.handleSubirCliente} color="success">Guardar Informacion</Button>
         
         </Box>
 

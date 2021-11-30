@@ -8,16 +8,16 @@ export default async function handle(req , res) {
   try{
   const Emisores = await prisma.pagos.findMany({
     take: 5,
-    distinct:['empresa_nombre'],  
+    distinct:['emisor'],  
     where:{
-        empresa_nombre:{
+      emisor:{
           contains:Otro.queryKey[1],
         },
       },
       select:{
-        empresa_nombre:true,
+        emisor:true,
       },
-      orderBy:{empresa_nombre:"asc"},
+      orderBy:{emisor:"asc"},
     })
 
     //console.log(Emisores)

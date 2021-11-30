@@ -6,22 +6,23 @@ import { prisma } from "../../lib/prisma";
 export default async function handle(req , res) {
   const {Otro}=req.body
   try{
-  const Status1 = await prisma.pagos.findMany({
+  const Clientes = await prisma.clientes.findMany({
     take: 5,
-    distinct:['status'],  
+    distinct:['cliente'],  
     where:{
-      status:{
+        cliente:{
           contains:Otro.queryKey[1],
         },
       },
       select:{
-        status:true,
+        cliente:true,
+        cuentabancaria:true,
       },
-      orderBy:{status:"asc"},
+      orderBy:{cliente:"asc"},
     })
 
-    //console.log(Status1)
-    res.json({Status1})
+    //console.log(Emisores)
+    res.json({Clientes})
   }catch(error){
     //res.status(400).json({error});
   }

@@ -5,31 +5,43 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Paper from "@mui/material/Paper";
 import { DataGrid } from '@mui/x-data-grid';
-import { useState,useContext } from 'react';
+import { useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import {AppContext} from "../application/provider" 
+import {useQuery} from "react-query"
 
+
+const fetchMovimientosRequest = async()=>{
+    const response= await fetch('../api/Obtenermovimientos',{
+        body:JSON.stringify(''),
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+        },
+    })
+    const data= await response.json()
+    const {movimientos}=data;
+    return movimientos
+  }
 
 
 export default function FormMovimientos(props){
     const [open, setOpen] = useState(false);
     const [Idactual,setId]=useState([])
-    const [Dinero,setDinero]=useContext(AppContext)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const handleCancelar=()=>{setId([])
-        setDinero(prevDinero=>({
-            ...prevDinero,
-            ["Pago"]:0,
-            ["Aplicable"]:0
-        }))
-    }
 
+
+    const handleCancelar=()=>{
+        setId([])
+        props.handlecancelacion()
+    }
+    const {data:ListaMovimientos}=useQuery(["Movimientos"],fetchMovimientosRequest)
+  
     
     const columns=[
         {field:"id",headerName:"Id",width:70},
@@ -39,17 +51,15 @@ export default function FormMovimientos(props){
         {field:"monto",headerName:"Monto",width:100}
     ]
     
-      const lista=[
-          {id:"75787",fecha:"2021-11-04T12:23",concepto:"TEF Recibido Bank of America",referencia:"1234",monto:4383.16,tipodecambio:1,emisor:"Holo", moneda:"MXN",  formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75789",fecha:"2021-11-04T01:43",concepto:"TEF Recibido Bank of America",referencia:"1235",monto:6201.29,tipodecambio:21.2,emisor:"Live", moneda:"USD", formadepago:"Cheque normativo",                     status:"Salvo Buen Cobro"},
-          {id:"75788",fecha:"2021-11-04T02:33",concepto:"TEF Recibido Bank of America",referencia:"1236",monto:7351.73,tipodecambio:1,emisor:"Fate", moneda:"MXM" ,formadepago:"Transferencia electrónica de fondos",  status:"Tenemos documento"},
-          {id:"75806",fecha:"2021-11-03T03:53",concepto:"TEF Recibido Bank of America",referencia:"1237",monto:1684.27,tipodecambio:23,emisor:"Go",   moneda:"EUR" , formadepago:"Tarjeta de crédito",                   status:"Tenemos promesa de pago"},
-          {id:"75804",fecha:"2021-11-03T02:43",concepto:"TEF Recibido Bank of America",referencia:"1238",monto:2428.55,tipodecambio:1,emisor:"Fatal",moneda:"MXN" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75802",fecha:"2021-11-03T03:43",concepto:"TEF Recibido Bank of America",referencia:"1239",monto:3614.24,tipodecambio:21.2,emisor:"Frame",moneda:"USD" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-          {id:"75797",fecha:"2021-11-03T13:43",concepto:"Pago cuenta de tercero",      referencia:"1231",monto:4173.53,tipodecambio:23,emisor:"Asd",  moneda:"EUR" ,formadepago:"Efectivo",                             status:"Tenemos el dinero"},
-      ]
-
-
+    var lista=[]
+    if(ListaMovimientos){
+        for(let Movi of ListaMovimientos){
+          lista.push(Movi)
+        }
+      }
+      else{
+          lista=[]
+      }
 
     var DatosTabla=[]
     if(Idactual){

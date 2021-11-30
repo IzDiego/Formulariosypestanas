@@ -7,8 +7,8 @@ import Box from '@mui/material/Box';
 import Formulario from './FormularioPagos'
 import FormComprobantes from './FormComprobantes';
 import FormMovimientos from './FormMovimientos';
-import {AppContext} from "../application/provider" 
-import {useState,useContext} from 'react'
+import {useState} from 'react'
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,6 +44,7 @@ function TabPanel(props) {
 
 
 
+
 export default function Pestanas(){
     
     const [value, setValue] = React.useState(0);
@@ -64,18 +65,12 @@ export default function Pestanas(){
       fechadeingreso:'',
       montoregistrado:0,
 
-      fechadecomfirmacion:'',
+      fechadeconfirmacion:'',
       observacionesalconfirmar:''
-
-
     })
     const [contador,setContador]=useState(1)
     const [ConfirmacionFondos, setFondos] = useState(false);
     const [ConfirmacionPago,setConfiP]=useState(false);
-    const [ComprobantesRelacionados,setComprobantes]=useState([
-      {comprobante:'',numerodeparcialidad:1,usodecfdi:"G01",formadepago:10,importe:0}
-    ])
-
 
     const [Comprobantenombre,setComprobantenombre]=useState([''])
     const [Comprobantenumerodeparcialidad,setComprobanteparcialidad]=useState([1])
@@ -85,6 +80,23 @@ export default function Pestanas(){
     
     const handleCheckIngreso=input=>e=>{setFondos(e.target.checked)}
     const handleCheckPago=input=>e=>{setConfiP(e.target.checked)}
+
+    const handleSubirCliente=async (e)=>{
+      e.preventDefault()
+      console.log("subiendo")
+      try{
+        const body={DatosPrueba}
+        await fetch(`http://localhost:3000/api/post`,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(body),
+        })
+      } catch(error){
+        console.log(error)
+      }  
+
+    }
+
     var moneda=''
     if(DatosPrueba.moneda!==''){
       moneda=DatosPrueba.moneda.substring(0,3)
@@ -209,7 +221,6 @@ export default function Pestanas(){
     }
 
     const handleGuardarTabla=input=>(e)=>{
-      console.log(input)
       setDprueba(prevDprueba=>({
         ...prevDprueba,
         ["emisor"]:input[0].emisor,
@@ -220,6 +231,23 @@ export default function Pestanas(){
         ["status"]:input[0].status,
         ["numeroperacion"]:input[0].referencia,
         ["formadepago"]:input[0].formadepago
+      }))
+    }
+
+    const handlecancelacion= () =>{
+      setDprueba(prevDprueba=>({
+        ...prevDprueba,
+        ["cliente"]:'',
+        ["emisor"]:'',
+        ["montorecibido"]:0,
+        ["montoaplicable"]:0,
+        ["moneda"]:'',
+        ["tipodecambio"]:0,
+        ["formadepago"]:'',
+        ["fecha"]:'',
+        ["status"]:'',
+        ["numeroperacion"]:'',
+        ["observaciones"]:'',
       }))
     }
 
@@ -242,6 +270,7 @@ export default function Pestanas(){
          handleFormSelect={handleFormSelect}
          handleCheckIngreso={handleCheckIngreso}
          handleCheckPago={handleCheckPago}
+         handleSubirCliente={handleSubirCliente}
          values={DatosPrueba}
          ConfirmacionFondos={ConfirmacionFondos}
          ConfirmacionPago={ConfirmacionPago}
@@ -254,21 +283,23 @@ export default function Pestanas(){
           handleimporte={handleimporte}
           handleformadepago={handleformadepago}
           handleusocfdi={handleusocfdi}
+          handleselectcomprobante={handleselectcomprobante}
+          handlecomprobanteinput={handlecomprobanteinput}
+          guardarComprobante={guardarComprobante}
           contador={contador}
-          ComprobantesRelacionados={ComprobantesRelacionados}
           Comprobanteimporte={Comprobanteimporte}
           Comprobanteformadepago={Comprobanteformadepago}
           Comprobantecfdi={Comprobantecfdi}
           Comprobantenumerodeparcialidad={Comprobantenumerodeparcialidad}
           Comprobantenombre={Comprobantenombre}
-          handleselectcomprobante={handleselectcomprobante}
-          handlecomprobanteinput={handlecomprobanteinput}
-          guardarComprobante={guardarComprobante}
+
           />
         </TabPanel>
         <TabPanel value={value} index={2}>
         <FormMovimientos
-        handleGuardarTabla={handleGuardarTabla}/>       
+        handleGuardarTabla={handleGuardarTabla}
+        handlecancelacion={handlecancelacion}
+        />       
         </TabPanel>
       </Box>
       </div>

@@ -6,19 +6,18 @@ import { prisma } from "../../lib/prisma";
 export default async function handle(req , res) {
   const {Otro}=req.body
   try{
-  const Monedas = await prisma.monedas.findMany({
+  const Monedas = await prisma.pagos.findMany({
     take: 5,
-    distinct:['soporte_moneda_clave'],  
+    distinct:['moneda'],  
     where:{
-        soporte_moneda_clave:{
+      moneda:{
           contains:Otro.queryKey[1],
         },
       },
       select:{
-        soporte_moneda_clave:true,
-        soporte_moneda_nombre:true,
+        moneda:true,
       },
-      orderBy:{soporte_moneda_id:"asc"},
+      orderBy:{moneda:"asc"},
     })
 
     //console.log(Emisores)

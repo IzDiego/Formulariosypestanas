@@ -13,36 +13,34 @@ datasource db {
 
 model pagos {
   id                                  String  @id @db.VarChar(255)
-  fecha                               String?  @db.VarChar(255) 
-  forma                               String?  @db.VarChar(255)
-  forma_pago_nombre                   String?  @db.VarChar(255)
-  receptor                            String?  @db.VarChar(255)
-  receptor_nombre                     String?  @db.VarChar(255)
-  monto                               String?  @db.VarChar(255)
-  monto_recibido                      String?  @db.VarChar(255)
-  num_operacion                       String?  @db.VarChar(255)
-  cuenta_bancaria_movimiento          String?  @db.VarChar(255)
-  cuenta_bancaria_movimiento_nombre   String?  @db.VarChar(255)
-  status_pago                         String?  @db.VarChar(255)
-  status_pago_nombre                  String?  @db.VarChar(255)
-  comprobante_pagado                  String?  @db.VarChar(255)
-  empresa                             String?  @db.VarChar(255)
-  empresa_nombre                      String?  @db.VarChar(255)
-  fecha_qn                            String?  @db.VarChar(255)
+  fecha                               String?  @db.VarChar(255)
+  concepto                            String? 
+  referencia                          String?
+  monto                               Float
+  tipodecambio                        Float
+  emisor                              String?
+  moneda                              String?
+  formadepago                         String?
+  status                              String?
 }
 
-model monedas{
-  soporte_moneda_id                       String @id @db.VarChar(255)
-  soporte_idioma_id                       String? @db.VarChar(255)
-  soporte_moneda_clave                    String? @db.VarChar(255)
-  soporte_moneda_nombre                   String? @db.VarChar(255)
-  soporte_moneda_decimales                String? @db.VarChar(255)
-  soporte_moneda_porcentaje_variacion     String? @db.VarChar(255)
-  soporte_moneda_nombre_singular          String? @db.VarChar(255)
-  soporte_moneda_nombre_plural            String? @db.VarChar(255)
-  soporte_moneda_denominacion             String? @db.VarChar(255)
-  soporte_moneda_simbolo                  String? @db.VarChar(255)
-  soporte_moneda_status                   String? @db.VarChar(255)
+model clientes{
+  id                          Int     @id @default(autoincrement())
+  cliente                     String
+  emisor                      String
+  montorecibido               Float
+  moneda                      String
+  tipodecambio                Float
+  formadepago                 String
+  fecha                       String
+  status                      String
+  numeroperacion              String
+  observaciones               String?
+  cuentabancaria              String?
+  fechadeingreso              String?
+  montoregistrado             Float?
+  fechadeconfirmacion         String?
+  observacionesalconfirmar    String?
 }
 
 

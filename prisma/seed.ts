@@ -1,16 +1,12 @@
 import {PrismaClient} from "@prisma/client"
-import {pagos} from "./seeds/pagosData"
-import { monedas } from "./seeds/monedasData"
-
+import {lista} from "./seeds/movimientosData"
 const prisma= new PrismaClient()
 
 async function main(){
     await prisma.pagos.createMany({
-        data:pagos,
+        data:lista,
     })
-    await prisma.monedas.createMany({
-        data:monedas
-    })
+
     
 }
 main().catch(e=>{
