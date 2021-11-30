@@ -61,6 +61,7 @@ export default function FormMovimientos(props){
           lista=[]
       }
 
+      
     var DatosTabla=[]
     if(Idactual){
         for(let lis of lista){
