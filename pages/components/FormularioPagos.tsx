@@ -88,7 +88,7 @@ export default function Formulario(props) {
   var ListaStatus=[]
 
   const Datos=props.values
-  console.log(values)
+  console.log(Datos)
   const {data: Emisores1}=useQuery(["Emisor",Datos.emisor],fetchEmisorRequest)    
   const { data: ListaStatus1}=useQuery(["Status",props.values.status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",props.values.formadepago],fetchFormaRequest)
