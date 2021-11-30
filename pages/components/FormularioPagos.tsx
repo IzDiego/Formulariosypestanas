@@ -86,13 +86,15 @@ export default function Formulario(props) {
   var Emisores=[]
   var ListaForma=[]
   var ListaStatus=[]
-  const {data: Emisores1}=useQuery(["Emisor",props.values.emisor],fetchEmisorRequest)    
+
+  const Datos=props.values
+  console.log(values)
+  const {data: Emisores1}=useQuery(["Emisor",Datos.emisor],fetchEmisorRequest)    
   const { data: ListaStatus1}=useQuery(["Status",props.values.status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",props.values.formadepago],fetchFormaRequest)
   const {data:ListaMonedas1}=useQuery(["Monedas",props.values.moneda],fetchMonedasRequest)
   const {data:ListaClientes}=useQuery(["Clientes",props.values.cliente],fetchClientesRequest)
-  console.log(ListaClientes)
-
+  
 
   var Clientes=[]
   var ListaCuentas=[]

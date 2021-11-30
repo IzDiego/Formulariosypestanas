@@ -47,7 +47,7 @@ function TabPanel(props) {
 
 export default function Pestanas(){
     
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
     const [DatosPrueba,setDprueba]=useState({
       cliente:'',
       emisor:'',
