@@ -29,7 +29,7 @@ const fetchMovimientosRequest = async()=>{
   }
 
 
-export default function FormMovimientos(props){
+export default function FormMovimientos({handleGuardarTabla,handlecancelacion}){
     const [open, setOpen] = useState(false);
     const [Idactual,setId]=useState([])
     const handleOpen = () => setOpen(true);
@@ -38,7 +38,7 @@ export default function FormMovimientos(props){
 
     const handleCancelar=()=>{
         setId([])
-        props.handlecancelacion()
+        handlecancelacion()
     }
     const {data:ListaMovimientos}=useQuery(["Movimientos"],fetchMovimientosRequest)
   
@@ -130,7 +130,7 @@ export default function FormMovimientos(props){
             </Table>
         </TableContainer>
         <Button variant="contained"  color="error" onClick={handleCancelar} >Cancelar</Button>
-        <Button variant="contained"  color="success" onClick={props.handleGuardarTabla(DatosTabla)} >Guardar Pago</Button>
+        <Button variant="contained"  color="success" onClick={handleGuardarTabla(DatosTabla)} >Guardar Pago</Button>
         </Box>
         
 

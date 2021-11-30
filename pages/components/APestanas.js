@@ -83,7 +83,6 @@ export default function Pestanas(){
 
     const handleSubirCliente=async (e)=>{
       e.preventDefault()
-      console.log("subiendo")
       try{
         const body={DatosPrueba}
         await fetch(`http://localhost:3000/api/post`,{
@@ -249,7 +248,7 @@ export default function Pestanas(){
         ["numeroperacion"]:'',
         ["observaciones"]:'',
       }))
-    }
+    };
 
     return (
       <div>

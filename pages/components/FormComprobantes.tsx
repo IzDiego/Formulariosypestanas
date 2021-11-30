@@ -12,16 +12,16 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
 
-export default function FormComprobantes(props) {
-  const importe=props.Comprobanteimporte
-  const formadepago=props.Comprobanteformadepago
-  const usocfdi=props.Comprobantecfdi
-  const numeroparcialidad=props.Comprobantenumerodeparcialidad
-  const comprobante=props.Comprobantenombre
+export default function FormComprobantes({agregarComprobante, handleparcialidad,handleimporte,handleformadepago,handleusocfdi,handleselectcomprobante,handlecomprobanteinput,guardarComprobante,contador,Comprobanteimporte,Comprobanteformadepago,Comprobantecfdi,Comprobantenumerodeparcialidad,Comprobantenombre}) {
+  const importe=Comprobanteimporte
+  const formadepago=Comprobanteformadepago
+  const usocfdi=Comprobantecfdi
+  const numeroparcialidad=Comprobantenumerodeparcialidad
+  const comprobante=Comprobantenombre
 
   const tamanoh=450
   var auxiliararreglo=[]
-  for(var i=0; i<props.contador;i++){
+  for(var i=0; i<contador;i++){
     auxiliararreglo.push(i)
   }
   
@@ -38,7 +38,7 @@ export default function FormComprobantes(props) {
               </Typography>
               <br/>
               <FormControl sx={{ width: tamanoh }}>
-              <Autocomplete value={comprobante[i]} onChange={props.handleselectcomprobante(i)} onInputChange={props.handlecomprobanteinput(i)}  id="combo-box-demo" options={[]} renderInput={(params) => (
+              <Autocomplete value={comprobante[i]} onChange={handleselectcomprobante(i)} onInputChange={handlecomprobanteinput(i)}  id="combo-box-demo" options={[]} renderInput={(params) => (
                   <><TextField {...params}InputLabelProps={{ shrink: true }}  label="Comprobante" value="Comprobante"/></>)}
               />{" "}
             
@@ -46,12 +46,12 @@ export default function FormComprobantes(props) {
               <br/>
               <br/>
               <FormControl sx={{ width: tamanoh}}>
-              <Autocomplete defaultValue={1} value={numeroparcialidad[i]}  onChange={props.handleparcialidad(i)}  disablePortal  id="EmisorAuto" options={[1,2,3,4,5]}  renderInput={(params) => <TextField {...params} label="Numero de parcialidad"/>}/><br/>
+              <Autocomplete defaultValue={1} value={numeroparcialidad[i]}  onChange={handleparcialidad(i)}  disablePortal  id="EmisorAuto" options={[1,2,3,4,5]}  renderInput={(params) => <TextField {...params} label="Numero de parcialidad"/>}/><br/>
               </FormControl>
               <br/>
               <FormControl sx={{ width: tamanoh }}>
                 <InputLabel  id="uso-CFDI">Uso de CFDI</InputLabel>
-                <Select  value={usocfdi[i]} label="Uso de CFDI" onChange={props.handleusocfdi(i)}>
+                <Select  value={usocfdi[i]} label="Uso de CFDI" onChange={handleusocfdi(i)}>
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
@@ -66,7 +66,7 @@ export default function FormComprobantes(props) {
               <br/>
               <FormControl sx={{ width: tamanoh }} id="forma-pago">
                 <InputLabel>Forma de Pago</InputLabel>
-                <Select  value={formadepago[i]} label="Forma de Pago" onChange={props.handleformadepago(i)}>
+                <Select  value={formadepago[i]} label="Forma de Pago" onChange={handleformadepago(i)}>
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
@@ -79,15 +79,15 @@ export default function FormComprobantes(props) {
               <br/>
             
               <FormControl sx={{ width: tamanoh }} id="importe">
-              <TextField value={importe[i]} type="number"  onChange={props.handleimporte(i)} label="Monto Aplicable" ></TextField><br/>
+              <TextField value={importe[i]} type="number"  onChange={handleimporte(i)} label="Monto Aplicable" ></TextField><br/>
               </FormControl>
             </Box>
           </div>
           )
         })}
         <Box sx={{padding:3}}>
-        <Button variant="contained"  color="primary" onClick={props.agregarComprobante('boton')} >Agregar Comprobante</Button>
-        <Button variant="contained"  color="success" onClick={props.guardarComprobante('botong')} >Guardar Comrprobante(s)</Button>
+        <Button variant="contained"  color="primary" onClick={agregarComprobante('boton')} >Agregar Comprobante</Button>
+        <Button variant="contained"  color="success" onClick={guardarComprobante('botong')} >Guardar Comrprobante(s)</Button>
         </Box>
       </Paper>
     </div>
