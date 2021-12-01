@@ -85,7 +85,7 @@ export default function Pestanas(){
       e.preventDefault()
       try{
         const body={DatosPrueba}
-        await fetch(`http://localhost:3000/api/post`,{
+        await fetch(`../api/post`,{
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify(body),
@@ -224,6 +224,7 @@ export default function Pestanas(){
         ...prevDprueba,
         ["emisor"]:input[0].emisor,
         ["montorecibido"]:input[0].monto,
+        ["montoaplicable"]:input[0].monto,
         ["moneda"]:input[0].moneda,
         ["tipodecambio"]:input[0].tipodecambio,
         ["fecha"]:input[0].fecha,
@@ -231,6 +232,8 @@ export default function Pestanas(){
         ["numeroperacion"]:input[0].referencia,
         ["formadepago"]:input[0].formadepago
       }))
+      console.log("datosprueba")
+      console.log(DatosPrueba)
     }
 
     const handlecancelacion= () =>{

@@ -110,7 +110,7 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
     Datos={
       cliente:values.cliente,
       emisor:values.emisor,
-      montorecibido:values.monrorecibido,
+      montorecibido:values.montorecibido,
       montoaplicable:values.montoaplicable,
       moneda:values.moneda,
       tipodecambio:values.tipodecambio,
@@ -126,7 +126,8 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
       observacionesalconfirmar:values.observacionesalconfirmar
     }
   }
-
+  console.log("datosrecibidos")
+  console.log(Datos)
 
   const {data: Emisores1}=useQuery(["Emisor",Datos.emisor],fetchEmisorRequest)    
   const { data: ListaStatus1}=useQuery(["Status",Datos.status],fetchStatusRequest) 
