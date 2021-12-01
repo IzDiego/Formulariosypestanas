@@ -107,7 +107,24 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
     }
   }
   else{
-    var Datos=values
+    Datos={
+      cliente:values.cliente,
+      emisor:values.emisor,
+      montorecibido:values.monrorecibido,
+      montoaplicable:values.montoaplicable,
+      moneda:values.moneda,
+      tipodecambio:values.tipodecambio,
+      formadepago:values.formadepago,
+      fecha:values.fecha,
+      status:values.status,
+      numeroperacion:values.numeroperacion,
+      observaciones:values.observaciones,
+      cuentabancaria:values.cuentabancaria,
+      fechadeingreso:values.fechadeingreso,
+      montoregistrado:values.montoregistrado,
+      fechadeconfirmacion:values.fechadeconfirmacion,
+      observacionesalconfirmar:values.observacionesalconfirmar
+    }
   }
 
 
