@@ -1,4 +1,3 @@
-import Formulario from './components/FormularioPagos'
 import APestanas from './components/APestanas'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
