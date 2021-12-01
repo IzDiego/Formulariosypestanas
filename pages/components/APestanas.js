@@ -67,19 +67,19 @@ export default function Pestanas(){
 
       fechadeconfirmacion:'',
       observacionesalconfirmar:''
-    })
-    const [contador,setContador]=useState(1)
-    const [ConfirmacionFondos, setFondos] = useState(false);
+    });
+    const [contador,setContador]=useState(1);
+    const [ConfirmacionFondos, setFondos] = useState(false);;
     const [ConfirmacionPago,setConfiP]=useState(false);
 
-    const [Comprobantenombre,setComprobantenombre]=useState([''])
-    const [Comprobantenumerodeparcialidad,setComprobanteparcialidad]=useState([1])
-    const [Comprobantecfdi,setCfdi]=useState(['G01'])
-    const [Comprobanteformadepago,setFormadepago]=useState([10])
-    const [Comprobanteimporte,setImporte]=useState([0])
+    const [Comprobantenombre,setComprobantenombre]=useState(['']);
+    const [Comprobantenumerodeparcialidad,setComprobanteparcialidad]=useState([1]);
+    const [Comprobantecfdi,setCfdi]=useState(['G01']);
+    const [Comprobanteformadepago,setFormadepago]=useState([10]);
+    const [Comprobanteimporte,setImporte]=useState([0]);
     
-    const handleCheckIngreso=input=>e=>{setFondos(e.target.checked)}
-    const handleCheckPago=input=>e=>{setConfiP(e.target.checked)}
+    const handleCheckIngreso=input=>e=>{setFondos(e.target.checked)};
+    const handleCheckPago=input=>e=>{setConfiP(e.target.checked)};
 
     const handleSubirCliente=async (e)=>{
       e.preventDefault()
@@ -92,9 +92,8 @@ export default function Pestanas(){
         })
       } catch(error){
         console.log(error)
-      }  
-
-    }
+      } 
+    };
 
     var moneda=''
     if(DatosPrueba.moneda!==''){
@@ -103,7 +102,7 @@ export default function Pestanas(){
   
     const handletabsChange = (event, newValue) => {
       setValue(newValue);
-    }
+    };
 
 
     const agregarComprobante=input=>e=>{
@@ -133,7 +132,7 @@ export default function Pestanas(){
       aux.push(aux2)
       setImporte(aux)
 
-    }
+    };
     const guardarComprobante=input=>e=>{
       var aux=0
       for(let pago of Comprobanteimporte){
@@ -144,20 +143,19 @@ export default function Pestanas(){
         ...prevDprueba,
         ["montoregistrado"]:aux
       })) 
-    
-    }
+    };
 
     const handleusocfdi=i=>e=>{
       var aux=[...Comprobantecfdi]
       aux[i]=e.target.value
       setCfdi(aux)
-    }
+    };
 
     const handleformadepago=i=>e=>{
       var aux=[...Comprobanteformadepago]
       aux[i]=e.target.value
       setFormadepago(aux)
-    }
+    };
 
     const handleparcialidad=(i)=>(e,value)=>{
       var aux=[...Comprobantenumerodeparcialidad]
@@ -168,7 +166,7 @@ export default function Pestanas(){
         aux[i]=1  
       }
       setComprobanteparcialidad(aux)
-    }
+    };
   
     const handleimporte=(i)=>e=>{
       if(e){
@@ -176,7 +174,7 @@ export default function Pestanas(){
         aux[i]=e.target.value
         setImporte(aux)
       }
-    }
+    };
 
     const handlecomprobanteinput=i=>e=>{
       if(e){
@@ -184,7 +182,8 @@ export default function Pestanas(){
         aux[i]=e.target.value
         setComprobantenombre(aux)
       }
-    }
+    };
+
     const handleFormInput=input=>e=>{
       if(e){
       setDprueba(prevDprueba=>({
@@ -192,7 +191,7 @@ export default function Pestanas(){
         [input]:e.target.value
       })) 
       }
-    }
+    };
 
     const handleFormSelect=input=>(e,value)=>{
       if(value){
@@ -207,7 +206,8 @@ export default function Pestanas(){
           [input]:''
         }))
       }
-    }
+    };
+
     const handleselectcomprobante=i=>(e,value)=>{
       var aux=[...Comprobantenombre]
       if(value){
@@ -217,7 +217,7 @@ export default function Pestanas(){
         aux[i]=''
       }
       setComprobantenombre(aux)
-    }
+    };
 
     const handleGuardarTabla=input=>(e)=>{
       setDprueba(prevDprueba=>({
@@ -232,9 +232,7 @@ export default function Pestanas(){
         ["numeroperacion"]:input[0].referencia,
         ["formadepago"]:input[0].formadepago
       }))
-      console.log("datosprueba")
-      console.log(DatosPrueba)
-    }
+    };
 
     const handlecancelacion= () =>{
       setDprueba(prevDprueba=>({
