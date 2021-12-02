@@ -210,7 +210,7 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
        </Typography>
         <Autocomplete value={Datos.cliente} defaultValue={Datos.cliente} onChange={handleFormSelect('cliente')} onInputChange={handleFormInput('cliente')} disablePortal id="ClienteAuto" options={Clientes} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Cliente"/>}/><br/>
         <Autocomplete value={Datos.emisor} defaultValue={Datos.emisor} onChange={handleFormSelect('emisor')} onInputChange={handleFormInput('emisor')} disablePortal  id="EmisorAuto" options={Emisores} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Emisor"/>}/><br/>
-        <TextField defaultValue={Datos.montorecibido} onChange={handleFormInput('montorecibido')} type="number" sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField><br/>
+        <TextField value={Datos.montorecibido} onChange={handleFormInput('montorecibido')} type="number" sx={{width:tamanoh,p:1}} label="Monto recibido"></TextField><br/>
         <TextField value={Datos.montorecibido} type="number"  sx={{width:tamanoh,p:1}} label="Monto Aplicable"  disabled={true}></TextField><br/>
         <Autocomplete  value={Datos.moneda} defaultValue={Datos.moneda} onChange={handleFormSelect('moneda')} onInputChange={handleFormInput('moneda')} disablePortal  id="MonedaAuto" options={ListaMonedas} sx={{ width: tamanoh,p:1 }} renderInput={(params) => <TextField {...params} label="Moneda"/>}/>  <br/> 
         <TextField sx={{width:tamanoh,p:1}} type="number" value={Datos.tipodecambio} onChange={handleFormInput('tipodecambio')} label="Tipo de cambio" ></TextField><br/>      

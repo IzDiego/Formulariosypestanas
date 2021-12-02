@@ -7,6 +7,9 @@ import Box from '@mui/material/Box';
 import Formulario from './FormularioPagos'
 import FormComprobantes from './FormComprobantes';
 import FormMovimientos from './FormMovimientos';
+import Alert from '@mui/material/Alert';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
 import {useState} from 'react'
 
 
@@ -71,28 +74,54 @@ export default function Pestanas(){
     const [contador,setContador]=useState(1);
     const [ConfirmacionFondos, setFondos] = useState(false);;
     const [ConfirmacionPago,setConfiP]=useState(false);
-
     const [Comprobantenombre,setComprobantenombre]=useState(['']);
     const [Comprobantenumerodeparcialidad,setComprobanteparcialidad]=useState([1]);
     const [Comprobantecfdi,setCfdi]=useState(['G01']);
     const [Comprobanteformadepago,setFormadepago]=useState([10]);
     const [Comprobanteimporte,setImporte]=useState([0]);
-    
+    const [AlertaOk,setAlertaOk]=useState(false);
+    const [AlertaNot,setAlertaNot]=useState(false);
     const handleCheckIngreso=(input)=>(e)=>{setFondos(e.target.checked)};
     const handleCheckPago=(input)=>(e)=>{setConfiP(e.target.checked)};
 
     const handleSubirCliente=async (e)=>{
       e.preventDefault()
-      try{
-        const body={DatosPrueba}
-        await fetch(`./api/post`,{
-          method:"POST",
-          headers:{"Content-Type":"application/json"},
-          body:JSON.stringify(body),
-        })
-      } catch(error){
-        console.log(error)
+      if(DatosPrueba.cliente!=='' && DatosPrueba.emisor!=='' && DatosPrueba.moneda!==''&& DatosPrueba.formadepago!=='' && DatosPrueba.fecha!=='' && DatosPrueba.status!=='' &&DatosPrueba.numeroperacion!=='' ){
+        try{
+          const body={DatosPrueba}
+          await fetch(`./api/post`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify(body),
+          })
+      
+          setAlertaOk(true)
+          setDprueba(prevDprueba=>({
+            ...prevDprueba,
+            ["cliente"]:'',
+            ["emisor"]:'',
+            ["montorecibido"]:0,
+            ["montoaplicable"]:0,
+            ["moneda"]:'',
+            ["tipodecambio"]:0,
+            ["formadepago"]:'',
+            ["fecha"]:'',
+            ["status"]:'',
+            ["numeroperacion"]:'',
+            ["observaciones"]:'',
+            ["cuentabancaria"]:'',
+            ["fechadeingreso"]:'',
+            ["montoregistrado"]:0,
+            ["fechadeconfirmacion"]:'',
+            ["observacionesalconfirmar"]:''
+          }))
+        } catch(error){
+          console.log(error)
+        }
       } 
+      else{
+        setAlertaNot(true)
+      }
     };
 
     var moneda=''
@@ -257,6 +286,44 @@ export default function Pestanas(){
         <Box sx={{ borderBottom: 1, borderColor: 'divider',padding:3 }}>
         <Typography>Agregar Pago|  Aplicable: {parseFloat(DatosPrueba.montorecibido*DatosPrueba.tipodecambio).toFixed(2)} MXN Por Aplicar: {parseFloat((DatosPrueba.montorecibido-DatosPrueba.montoregistrado)*DatosPrueba.tipodecambio).toFixed(2)} MXN </Typography>
         </Box> 
+        <Collapse in={AlertaOk}>
+        <Alert ariant="filled" severity="success"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setAlertaOk(false);
+              }}
+            >
+              x
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Cliente Subido!
+        </Alert>
+        </Collapse>
+        <Collapse in={AlertaNot}>
+        <Alert variant="filled" severity="warning"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setAlertaNot(false);
+              }}
+            >
+              x
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Falta rellenar campos!!
+        </Alert>
+        </Collapse>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handletabsChange} aria-label="basic tabs example">
             <Tab label="Información del pago" {...a11yProps(0)} />
@@ -301,6 +368,8 @@ export default function Pestanas(){
         handlecancelacion={handlecancelacion}
         />       
         </TabPanel>
+
+           
       </Box>
       </div>
     );
