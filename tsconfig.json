@@ -23,7 +23,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "pages/components/Pestanas.js", "pages/components/FormMovimientos.js", "pages/components/FormularioPagos.js", "pages/components/FormComprobantes.js"  ],
+, "components/Pestanas.js", "components/FormMovimientos.js", "components/FormularioPagos.js", "components/FormComprobantes.js"  ],
   "exclude": [
     "node_modules"
   ]

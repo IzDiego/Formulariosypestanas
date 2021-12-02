@@ -16,7 +16,7 @@ import {useQuery} from "react-query"
 
 
 const fetchMovimientosRequest = async()=>{
-    const response= await fetch('../api/Obtenermovimientos',{
+    const response= await fetch('./api/Obtenermovimientos',{
         body:JSON.stringify(''),
         method:'POST',
         headers:{

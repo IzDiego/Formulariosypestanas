@@ -12,12 +12,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { Typography } from "@mui/material";
 
-export default function FormComprobantes({agregarComprobante, handleparcialidad,handleimporte,handleformadepago,handleusocfdi,handleselectcomprobante,handlecomprobanteinput,guardarComprobante,contador,Comprobanteimporte,Comprobanteformadepago,Comprobantecfdi,Comprobantenumerodeparcialidad,Comprobantenombre}) {
+export default function FormComprobantes({handleparcialidad,handleimporte,handleformadepago,handleusocfdi,handleselectcomprobante,agregarComprobante,handlecomprobanteinput,guardarComprobante,contador,Comprobanteimporte,Comprobanteformadepago,Comprobantecfdi,Comprobantenumerodeparcialidad,Comprobantenombre}) {
   const importe=Comprobanteimporte
   const formadepago=Comprobanteformadepago
   const usocfdi=Comprobantecfdi
   const numeroparcialidad=Comprobantenumerodeparcialidad
   const comprobante=Comprobantenombre
+ 
 
   const tamanoh=450
   var auxiliararreglo=[]

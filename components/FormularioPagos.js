@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 
 const fetchEmisorRequest = async(Emisor)=>{
   const data2={Otro:Emisor}
-  const response= await fetch('../api/ObtenerEmisor',{
+  const response= await fetch('./api/ObtenerEmisor',{
       body:JSON.stringify(data2),
       method:'POST',
       headers:{
@@ -25,7 +25,7 @@ const fetchEmisorRequest = async(Emisor)=>{
 
 const fetchStatusRequest = async(Status)=>{
   const data2={Otro:Status}
-  const response= await fetch('../api/ObtenerStatus',{
+  const response= await fetch('./api/ObtenerStatus',{
       body:JSON.stringify(data2),
       method:'POST',
       headers:{
@@ -39,7 +39,7 @@ const fetchStatusRequest = async(Status)=>{
 
 const fetchFormaRequest = async(Status)=>{
   const data2={Otro:Status}
-  const response= await fetch('../api/ObtenerForma',{
+  const response= await fetch('./api/ObtenerForma',{
       body:JSON.stringify(data2),
       method:'POST',
       headers:{
@@ -53,7 +53,7 @@ const fetchFormaRequest = async(Status)=>{
  
 const fetchMonedasRequest = async(Moneda)=>{
   const data2={Otro:Moneda}
-  const response= await fetch('../api/ObtenerMonedas',{
+  const response= await fetch('./api/ObtenerMonedas',{
       body:JSON.stringify(data2),
       method:'POST',
       headers:{
@@ -67,7 +67,7 @@ const fetchMonedasRequest = async(Moneda)=>{
 
 const fetchClientesRequest = async(Cliente)=>{
   const data2={Otro:Cliente}
-  const response= await fetch('../api/ObtenerClientes',{
+  const response= await fetch('./api/ObtenerClientes',{
       body:JSON.stringify(data2),
       method:'POST',
       headers:{
@@ -126,9 +126,6 @@ export default function Formulario({values,handleFormInput,handleFormSelect,hand
       observacionesalconfirmar:values.observacionesalconfirmar
     }
   }
-  console.log("datosrecibidos")
-  console.log(Datos)
-
   const {data: Emisores1}=useQuery(["Emisor",Datos.emisor],fetchEmisorRequest)    
   const { data: ListaStatus1}=useQuery(["Status",Datos.status],fetchStatusRequest) 
   const {data:ListaForma1}=useQuery(["Formas",Datos.formadepago],fetchFormaRequest)

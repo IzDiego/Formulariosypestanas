@@ -78,14 +78,14 @@ export default function Pestanas(){
     const [Comprobanteformadepago,setFormadepago]=useState([10]);
     const [Comprobanteimporte,setImporte]=useState([0]);
     
-    const handleCheckIngreso=input=>e=>{setFondos(e.target.checked)};
-    const handleCheckPago=input=>e=>{setConfiP(e.target.checked)};
+    const handleCheckIngreso=(input)=>(e)=>{setFondos(e.target.checked)};
+    const handleCheckPago=(input)=>(e)=>{setConfiP(e.target.checked)};
 
     const handleSubirCliente=async (e)=>{
       e.preventDefault()
       try{
         const body={DatosPrueba}
-        await fetch(`../api/post`,{
+        await fetch(`./api/post`,{
           method:"POST",
           headers:{"Content-Type":"application/json"},
           body:JSON.stringify(body),
@@ -105,7 +105,7 @@ export default function Pestanas(){
     };
 
 
-    const agregarComprobante=input=>e=>{
+    const agregarComprobante=(input)=>(e)=>{
       setContador(contador+1)
       var aux=Comprobantenombre
       var aux2=''
@@ -133,7 +133,7 @@ export default function Pestanas(){
       setImporte(aux)
 
     };
-    const guardarComprobante=input=>e=>{
+    const guardarComprobante=(input)=>(e)=>{
       var aux=0
       for(let pago of Comprobanteimporte){
     
@@ -145,13 +145,13 @@ export default function Pestanas(){
       })) 
     };
 
-    const handleusocfdi=i=>e=>{
+    const handleusocfdi=(i)=>(e)=>{
       var aux=[...Comprobantecfdi]
       aux[i]=e.target.value
       setCfdi(aux)
     };
 
-    const handleformadepago=i=>e=>{
+    const handleformadepago=(i)=>(e)=>{
       var aux=[...Comprobanteformadepago]
       aux[i]=e.target.value
       setFormadepago(aux)
@@ -168,7 +168,7 @@ export default function Pestanas(){
       setComprobanteparcialidad(aux)
     };
   
-    const handleimporte=(i)=>e=>{
+    const handleimporte=(i)=>(e)=>{
       if(e){
         var aux=[...Comprobanteimporte]
         aux[i]=e.target.value
@@ -176,7 +176,7 @@ export default function Pestanas(){
       }
     };
 
-    const handlecomprobanteinput=i=>e=>{
+    const handlecomprobanteinput=(i)=>(e)=>{
       if(e){
         var aux=[...Comprobantenombre]
         aux[i]=e.target.value
@@ -184,7 +184,7 @@ export default function Pestanas(){
       }
     };
 
-    const handleFormInput=input=>e=>{
+    const handleFormInput=(input)=>(e)=>{
       if(e){
       setDprueba(prevDprueba=>({
         ...prevDprueba,
@@ -193,7 +193,7 @@ export default function Pestanas(){
       }
     };
 
-    const handleFormSelect=input=>(e,value)=>{
+    const handleFormSelect=(input)=>(e,value)=>{
       if(value){
         setDprueba(prevDprueba=>({
           ...prevDprueba,
@@ -208,7 +208,7 @@ export default function Pestanas(){
       }
     };
 
-    const handleselectcomprobante=i=>(e,value)=>{
+    const handleselectcomprobante=(i)=>(e,value)=>{
       var aux=[...Comprobantenombre]
       if(value){
         aux[i]=value
